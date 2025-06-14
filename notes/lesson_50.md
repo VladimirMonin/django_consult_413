@@ -35,3 +35,37 @@ poetry run python manage.py startapp core
 - Описане отличий от MVC
 
 ## Первый машрут
+
+- Что такое path
+- Что такое view
+- Что такое HTTP Response
+- Каждая вью обятаельно принемает request
+
+```python
+# core/views.py
+from django.shortcuts import render, HttpResponse
+
+def landing(request):
+    return HttpResponse("<h1>Главная страница</h1>")
+
+```
+
+```python
+# core/views.py
+from django.shortcuts import render, HttpResponse
+
+def landing(request):
+    return HttpResponse("<h1>Главная страница</h1>")
+
+
+```python
+# barbershop/urls.py
+from django.contrib import admin
+from django.urls import path
+from core.views import landing
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", landing),
+]
+```
