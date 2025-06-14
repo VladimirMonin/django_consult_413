@@ -1,3 +1,5 @@
-from django.shortcuts import render
+# core/views.py
+from django.shortcuts import render, HttpResponse
 
-# Create your views here.
+def landing(request):
+    return HttpResponse("<h1>Главная страница</h1>")
