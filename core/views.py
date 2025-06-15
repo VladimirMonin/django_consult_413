@@ -33,10 +33,12 @@ def order_detail(request, order_id):
     order = [order for order in orders if order["id"] == order_id]
     try:
         order = order[0]
-    
+        context = {
+            "order": order,
+            "my_fariable": "Hello, world!",
+        }
     except IndexError:
         return HttpResponse("<h1>Заказ не найден</h1>", status=404)
     
     else:
-        order_data = f"""<h1>Заказ {order["id"]}</h1><p>Клиент: {order["client_name"]}</p>"""
-        return HttpResponse(order_data)
+        return render(request, "order_detail.html", context=context)

@@ -1,0 +1,26 @@
+    {% comment %} {
+        "id": 1,
+        "client_name": "Пётр 'Безголовый' Головин",
+        "services": ["Стрижка под 'Горшок'", "Полировка лысины до блеска"],
+        "master_id": 1,
+        "date": "2025-03-20",
+        "status": STATUS_NEW,
+    } {% endcomment %}
+     
+    <!-- шаблон order_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ №{{ order.id }}</title>
+</head>
+<body>
+    <h1>Заказ №{{ order.id }}</h1>
+    <p>Клиент: {{ order.client_name }}</p>
+    <p>Статус: {{ order.status }}</p>
+
+    <p>Моя переменная {{ my_fariable }}</p>
+
+</body>
+</html>
