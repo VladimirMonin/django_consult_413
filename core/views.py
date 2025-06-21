@@ -68,7 +68,11 @@ def test_template(request):
     """
     Отвечает за маршрут 'test_template/'
     """
+    
     context_data = {
         "variable_1": "Значение переменной 1",
+        "test_list": test_list,
+        "test_dict": test_dict,
+        "test_person": test_person,
     }
     return render(request, "test_template.html", context=context_data)
