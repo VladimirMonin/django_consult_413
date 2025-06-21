@@ -11,7 +11,9 @@
 - Фильтры для преобразования данных прямо в шаблоне
 
 >[!info]
+>
 >#### Основные возможности шаблонизатора 🔍
+>
 >- Переменные: `{{ variable }}`
 >- Теги: `{% tag %}`
 >- Фильтры: `{{ value|filter }}`
@@ -43,7 +45,9 @@ def thanks(request):
 ```
 
 >[!warning]
+>
 >#### Почему сложная структура? ⚠️
+>
 >Использование подпапки с именем приложения внутри `templates` предотвращает конфликты имен, когда несколько приложений имеют шаблоны с одинаковыми именами.
 
 ### Альтернативное место хранения 🗄️
@@ -85,14 +89,71 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 После установки рекомендуется добавить в настройки VS Code:
 
 ```json
-"[django-html]": {
+ // === НАСТРОЙКИ DJANGO И WEB-РАЗРАБОТКИ ===
+  "emmet.includeLanguages": {
+    "django-html": "html"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.showSuggestionsAsSnippets": true,
+  "emmet.showExpandedAbbreviation": "always",
+  "emmet.useInlineCompletions": true,
+  "emmet.extensionsPath": [],
+  "emmet.syntaxProfiles": {
+    "html": {
+      "filters.commentAfter": "<!-- /{[#]}/ -->",
+      "attributes": {
+        "class": "class",
+        "id": "id",
+        "for": "for"
+      }
+    },
+    "django-html": {
+      "filters.commentAfter": "{# /{[#]}/ #}"
+    }
+  },
+  "files.associations": {
+    "**/*.html": "html",
+    "**/templates/*/*.html": "django-html",
+    "**/templates/*/*/*.html": "django-html",
+    "**/templates/*": "django-html",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  },
+  "[django-html]": {
+    "breadcrumbs.showClasses": true,
     "editor.formatOnSave": false,
     "editor.quickSuggestions": {
-        "other": true,
-        "comments": true,
-        "strings": true
+      "other": true,
+      "comments": true,
+      "strings": true
     }
-}
+  },
+```
+
+А так же
+
+````json
+  "python.analysis.packageIndexDepths": [
+    {
+      "name": "django",
+      "depth": 10,
+      "includeAllSymbols": true
+    },
+    {
+      "name": "selenium",
+      "depth": 3,
+      "includeAllSymbols": true
+    },
+    {
+      "name": "sqlalchemy",
+      "depth": 3,
+      "includeAllSymbols": true
+    },
+    {
+      "name": "sqlite3",
+      "depth": 3,
+      "includeAllSymbols": true
+    }
+  ],
 ```
 
 Эти настройки отключают автоформатирование (которое может сломать шаблоны) и включают подсказки во всех контекстах.
@@ -121,9 +182,12 @@ def thanks(request):
 ```
 
 Функция `render` принимает два обязательных аргумента:
+
 1. Объект запроса (`request`)
 2. Путь к шаблону относительно папки `templates`
 
 >[!info]
+>
 >#### Рендеринг на сервере vs клиенте 🔄
+>
 >Django выполняет рендеринг шаблонов на сервере, отправляя клиенту уже готовый HTML. Это отличается от современных JavaScript-фреймворков, где рендеринг часто происходит на стороне клиента.
