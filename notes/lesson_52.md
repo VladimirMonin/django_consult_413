@@ -132,3 +132,149 @@ def test_template(request):
 
 - Про то как передаются разные типы данных и как они отображаются
 - Про то что нельзя вызвать методы объекта с аргуменатми, только без аргументов
+
+
+## Практическое применение циклов и условий шаблонизатора Django
+
+### Подготовка спискового отображения заявок
+
+`orders_list.html`
+`path("orders/", orders_list),`
+
+
+```python
+def orders_list(request):
+    """
+    Отвечает за маршрут 'orders/'
+    """
+    context = {
+        "orders": orders,
+    }
+    return render(request, "orders_list.html", context=context)
+```
+
+Переменная `data`:
+
+```python
+# Тестовые данные заявок
+orders = [
+    {
+        "id": 1,
+        "client_name": "Пётр 'Безголовый' Головин",
+        "services": ["Стрижка под 'Горшок'", "Полировка лысины до блеска"],
+        "master_id": 1,
+        "date": "2025-03-20",
+        "status": STATUS_NEW,
+    },...
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список заявок</title>
+    <style>
+      
+    </style>
+</head>
+<body>
+    <h1>Список заявок</h1>
+    <div class="flex-container">
+        {% comment %} Проверка на пустую коллекцию empty{% endcomment %}
+        {% for order in orders %}
+        <div class="flex-card">
+            <h2>ID заявки: {{ order.id }}</h2>
+            <p>Имя: {{ order.client_name }}</p>
+            
+            <p>Дата заявки: {{ order.date }}</p>
+            <p class= {% if order.status == "новая" %}
+            "new"
+            {% elif order.status == "подтвержденная" %}
+            "confirmed"
+            {% elif order.status == "отмененная" %}
+            "rejected"
+            {% elif order.status == "выполненная" %}
+            "canceled"
+            {% endif %}
+            >Статус заявки: {{ order.status }}</p>
+            <p>Количество услуг: {{ order.services|length }}</p>
+            <div class="services">   
+            {% comment %} цикл для span услуг {% endcomment %}
+                {% for service  in order.services  %}
+                <span class="service">{{ service }}</span>
+                {% endfor %}
+            </div> 
+
+        </div>
+        {% empty %}
+        <p>Нет заявок</p>
+        {% endfor %}
+
+    </div>
+</body>
+</html>
+```
+
+-------------
+
+
+
+
+
+
+## Фильтры шаблонизатора Django
+
+| Название фильтра | Пример вызова | Пояснение |
+|------------------|---------------|-----------|
+| date             | `{{ value|date:"D d M Y" }}` | Форматирует дату в указанном формате. |
+| upper            | `{{ value|upper }}` | Преобразует строку в верхний регистр. |
+| lower            | `{{ value|lower }}` | Преобразует строку в нижний регистр. |
+| slice            | `{{ some_list|slice:":2" }}` | Возвращает срез списка. |
+| default          | `{{ value|default:"nothing" }}` | Возвращает значение по умолчанию, если значение не определено. |
+| length           | `{{ some_list|length }}` | Возвращает длину списка или строки. |
+| truncatechars    | `{{ value|truncatechars:10 }}` | Обрезает строку до указанного количества символов. |
+| truncatewords    | `{{ value|truncatewords:2 }}` | Обрезает строку до указанного количества слов. |
+| join             | `{{ list|join:", " }}` | Объединяет элементы списка в строку с указанным разделителем. |
+| safe             | `{{ value|safe }}` | Помечает строку как безопасную для рендеринга HTML. |
+| escape           | `{{ value|escape }}` | Экранирует HTML-теги в строке. |
+| linebreaks       | `{{ value|linebreaks }}` | Заменяет переносы строк на теги `<br>`. |
+| linebreaksbr     | `{{ value|linebreaksbr }}` | Заменяет переносы строк на теги `<br>`, сохраняя существующие теги `<br>`. |
+| striptags        | `{{ value|striptags }}` | Удаляет все HTML-теги из строки. |
+| add              | `{{ value|add:2 }}` | Прибавляет указанное число к значению. |
+| divisibleby      | `{{ value|divisibleby:3 }}` | Проверяет, делится ли число на указанное значение без остатка. |
+| yesno           | `{{ value|yesno:"yes,no,maybe" }}` | Возвращает одно из трех значений в зависимости от истинности значения. |
+| filesizeformat  | `{{ value|filesizeformat }}` | Форматирует размер файла в удобочитаемом формате. |
+| pluralize       | `{{ value|pluralize }}` | Возвращает множественное число слова в зависимости от значения. |
+| time            | `{{ value|time:"H:i" }}` | Форматирует время в указанном формате. |
+| timesince       | `{{ value|timesince:other_date }}` | Возвращает разницу во времени между двумя датами в удобочитаемом формате. |
+| timeuntil       | `{{ value|timeuntil:other_date }}` | Возвращает время до указанной даты в удобочитаемом формате. |
+| wordcount       | `{{ value|wordcount }}` | Возвращает количество слов в строке. |
+| wordwrap        | `{{ value|wordwrap:10 }}` | Переносит строку по указанному количеству символов. |
+| cut             | `{{ value|cut:" " }}` | Удаляет все вхождения указанной подстроки из строки. |
+| first           | `{{ some_list|first }}` | Возвращает первый элемент списка. |
+| last            | `{{ some_list|last }}` | Возвращает последний элемент списка. |
+| random          | `{{ some_list|random }}` | Возвращает случайный элемент из списка. |
+| floatformat     | `{{ value|floatformat:2 }}` | Форматирует число с плавающей точкой до указанного количества знаков после запятой. |
+| get_digit       | `{{ value|get_digit:"2" }}` | Возвращает указанную цифру из числа. |
+| make_list       | `{{ value|make_list }}` | Преобразует значение в список. |
+| slugify         | `{{ value|slugify }}` | Преобразует строку в формат slug (только буквы, цифры, дефисы и подчеркивания). |
+| stringformat    | `{{ value|stringformat:"s" }}` | Форматирует строку с использованием указанного формата. |
+| urlencode       | `{{ value|urlencode }}` | Кодирует строку для использования в URL. |
+| urlize          | `{{ value|urlize }}` | Преобразует URL-адреса в строке в кликабельные ссылки. |
+| urlizetrunc     | `{{ value|urlizetrunc:20 }}` | Преобразует URL-адреса в строке в кликабельные ссылки и обрезает их до указанной длины. |
+| capfirst         | `{{ value|capfirst }}` | Делает первую букву строки заглавной. |
+| center           | `{{ value|center:"10" }}` | Центрирует строку в указанной ширине. |
+| dictsort         | `{{ value|dictsort:"name" }}` | Сортирует список словарей по указанному ключу. |
+| dictsortreversed | `{{ value|dictsortreversed:"name" }}` | Сортирует список словарей по указанному ключу в обратном порядке. |
+| escapejs         | `{{ value|escapejs }}` | Экранирует JavaScript-код в строке. |
+| fix_ampersands   | `{{ value|fix_ampersands }}` | Заменяет амперсанды на HTML-сущности. |
+| iriencode        | `{{ value|iriencode }}` | Кодирует строку для использования в IRI. |
+| linenumbers      | `{{ value|linenumbers }}` | Добавляет номера строк к тексту. |
+| ljust            | `{{ value|ljust:"10" }}` | Выравнивает строку по левому краю в указанной ширине. |
+| rjust            | `{{ value|rjust:"10" }}` | Выравнивает строку по правому краю в указанной ширине. |
+| phone2numeric    | `{{ value|phone2numeric }}` | Преобразует телефонные номера в числовой формат. |
+| removetags       | `{{ value|removetags:"b i" }}` | Удаляет указанные HTML-теги из строки. |
+| title            | `{{ value|title }}` | Преобразует строку в формат заголовка (каждое слово с заглавной буквы). |
+| unordered_list   | `{{ value|unordered_list }}` | Преобразует список в HTML-список без порядка. |

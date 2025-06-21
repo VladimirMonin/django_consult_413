@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список заявок</title>
+    <style>
+      
+    </style>
+</head>
+<body>
+    <h1>Список заявок</h1>
+    <div class="flex-container">
+        {% comment %} Проверка на пустую коллекцию empty{% endcomment %}
+        {% for order in orders %}
+        <div class="flex-card">
+            <h2>ID заявки: {{ order.id }}</h2>
+            <p>Имя: {{ order.client_name }}</p>
+            
+            <p>Дата заявки: {{ order.date }}</p>
+            <p class= {% if order.status == "новая" %}
+            "new"
+            {% elif order.status == "подтвержденная" %}
+            "confirmed"
+            {% elif order.status == "отмененная" %}
+            "rejected"
+            {% elif order.status == "выполненная" %}
+            "canceled"
+            {% endif %}
+            >Статус заявки: {{ order.status }}</p>
+            <p>Количество услуг: {{ order.services|length }}</p>
+            <div class="services">   
+            {% comment %} цикл для span услуг {% endcomment %}
+                {% for service  in order.services  %}
+                <span class="service">{{ service }}</span>
+                {% endfor %}
+            </div> 
+
+        </div>
+        {% empty %}
+        <p>Нет заявок</p>
+        {% endfor %}
+
+    </div>
+</body>
+</html>
