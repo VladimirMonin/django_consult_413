@@ -1,0 +1,23 @@
+        <div class="flex-card">
+            <h2>ID заявки: {{ order.id }}</h2>
+            <p>Имя: {{ order.client_name }}</p>
+
+            <p>Дата заявки: {{ order.date }}</p>
+            <p class= {% if order.status == "новая" %}
+            "new"
+            {% elif order.status == "подтвержденная" %}
+            "confirmed"
+            {% elif order.status == "отмененная" %}
+            "rejected"
+            {% elif order.status == "выполненная" %}
+            "canceled"
+            {% endif %}
+            >Статус заявки: {{ order.status }}</p>
+            <p>Количество услуг: {{ order.services|length }}</p>
+            <div class="services">
+                {% comment %} цикл для span услуг {% endcomment %}
+                {% for service  in order.services  %}
+                <span class="service">{{ service }}</span>
+                {% endfor %}
+            </div>
+        </div>
