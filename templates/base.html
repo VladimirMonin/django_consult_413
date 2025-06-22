@@ -10,7 +10,17 @@
     </title>
 </head>
 <body>
-    {% block content %}{% endblock content %}
-        {{ test_var }}
+    <header>
+        {% block header %}
+        {% include "include_nav_menu.html" %}
+        {% endblock header %}
+    </header>
+    <main>
+        {% block content %}{% endblock content %}
+    </main>
+    <footer>
+
+    </footer>
+    
 </body>
 </html>
