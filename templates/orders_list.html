@@ -1,97 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список заявок</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .flex-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .flex-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
-            transition: transform 0.3s ease;
-        }
-
-        .flex-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .flex-card h2 {
-            margin-top: 0;
-            color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .flex-card p {
-            margin: 10px 0;
-        }
-
-        .services {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 15px;
-        }
-
-        .service {
-            background-color: #e0f7fa;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9em;
-        }
-
-        /* Стили для статусов */
-        .new {
-            color: #27ae60;
-            font-weight: bold;
-        }
-
-        .confirmed {
-            color: #2980b9;
-            font-weight: bold;
-        }
-
-        .rejected {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-
-        .canceled {
-            color: #95a5a6;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <h1>Список заявок</h1>
+{% extends "base.html" %}
+{% block content %}   
+<h1>Список заявок</h1>
     <div class="flex-container">
         {% comment %} Проверка на пустую коллекцию empty{% endcomment %}
         {% for order in orders %}
         {% include "include_order_card.html" %}
         {% endfor %}
     </div>
-</body>
-</html>
+{% endblock content %} 
