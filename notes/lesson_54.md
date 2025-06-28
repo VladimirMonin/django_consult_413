@@ -46,7 +46,7 @@ poetry run python manage.py migrate
 ## Создание связи One-to-Many
 
 ```python
-class Masetry(models.Model):
+class Masetr(models.Model):
     name = models.CharField()
     phone = models.CharField()
 
