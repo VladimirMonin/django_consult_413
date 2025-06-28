@@ -42,3 +42,32 @@ poetry run python manage.py migrate
 ```
 
 ![first_order_migrations.png](./images/first_order_migrations.png)
+
+## Создание связи One-to-Many
+
+```python
+class Masetry(models.Model):
+    name = models.CharField()
+    phone = models.CharField()
+
+class Order(models.Model):
+    name = models.CharField()
+    phone  = models.CharField()
+    comment = models.CharField()
+    master = models.ForeignKey("Master", on_delete=models.SET_NULL, null=True)
+
+```
+
+Установка Shell Plus 
+`poetry add django-extensions`
+
+Пдоключить в `settings.py`
+```python
+INSTALLED_APPS = [
+    ...
+    'django_extensions',
+    'core',
+```
+
+Запускаем `poetry run python manage.py shell_plus`
+Или же в режиме `print sql` - `poetry run python manage.py shell_plus --print-sql`
