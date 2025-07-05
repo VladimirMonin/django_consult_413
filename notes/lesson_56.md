@@ -103,7 +103,7 @@ class Order(models.Model):
     extra_data = models.JSONField(default=dict) # Добавили поле JSON
 ```
 
------
+---
 
 ### **Полная сводная таблица Django Lookups**
 
@@ -146,3 +146,182 @@ class Order(models.Model):
 | `field__contains` | `JSONField`: JSON содержит переданный JSON. | `Order.objects.filter(extra_data__contains={'source': 'web'})` | Проверяет, что один JSON является подмножеством другого. |
 | **Инвертирование** |
 | `.exclude()` | **Не лукап, а метод QuerySet.** Инвертирует фильтр. | `Master.objects.exclude(name__startswith='А')` | Найти всех мастеров, чье имя НЕ начинается на 'А'. **Любой лукап можно инвертировать, поместив его в `.exclude()` вместо `.filter()`**. |
+
+### Примеы запросов с использованием `Lookups`
+
+```python
+# Запустим shell plus в print-режиме
+poetry run python manage.py shell_plus --print-sql
+
+# Выбрать заказы где не указан мастер
+Order.objects.filter(master__isnull=True)
+
+# Все мастера где имя начинается на "Гендальф"
+Master.objects.filter(name__startswith='Гендальф')
+
+# Услуги дороже > 500 рублей
+Service.objects.filter(price__gt='500')
+
+# Заказы где мастер указан и начинается на "Г"
+Order.objects.filter(master__isnull=False, master__name__startswith='Г')
+
+# Можно использовать передачу аргументов через запятую, но можно и так
+Order.objects.filter(master__isnull=False).filter(master__name__startswith='Г')
+
+# Двойной лукап для связанного поля + для выборки по условию
+```
+
+### Практика
+
+1. Выбрать все заказы где имя мастера входит в список: Гендальф, Фродо, Пиппин
+`Order.objects.filter(master__name__in=['Гендальф', 'Фродо', 'Пиппин'])`
+2. Выбрать все услуги в диапазоне цен от 500 до 1000 рублей
+`Service.objects.filter(price__range=('500', '1000'))`
+3. Выбрать все услуги где в название входит "ус" и цена больше 500 рублей
+`Service.objects.filter(name__contains='ус', price__gt='500')`
+4. Выбрать все заказы где услуга входит в список: "Стрижка", "Укладка", "Окрашивание"
+`Order.objects.filter(service__name__in=['Стрижка', 'Укладка', 'Окрашивание'])`
+
+# TODO - Описать понятным языком как формируются эти запросы и рассказать про решения практического задания. Разделить на 2 части: описание заданий и решение
+
+### Работа с датой и временем
+
+#### Типы принимаемых данных
+
+Лукапы для даты и времени можно разделить на две группы по типу данных, которые они принимают:
+
+1. **Принимают целые числа (`int`):** Эти лукапы извлекают из даты/времени одну конкретную часть (год, месяц, час и т.д.) и сравнивают её с переданным вами числом.
+
+      - `year`, `month`, `day`, `week`, `week_day`, `quarter`, `hour`, `minute`, `second`
+
+2. **Принимают объекты `date`, `time`, `datetime`:** Эти лукапы сравнивают значение поля в базе данных с полноценным объектом даты или времени из Python.
+
+      - `date`, `time`, а также стандартные операторы сравнения (`gt`, `lt`, `gte`, `lte`, `range`) при работе с полями даты/времени.
+
+-----
+
+#### Детальная таблица лукапов
+
+Предположим, у нас есть модель `Order` с полем `created_at = models.DateTimeField()`.
+
+| Lookup | Что принимает | Описание и пример |
+| :--- | :--- | :--- |
+| **Лукапы, принимающие `int`** |
+| `__year` | `int` | Фильтрует по году. `Order.objects.filter(created_at__year=2024)` |
+| `__month` | `int` | Фильтрует по номеру месяца (1-12). `Order.objects.filter(created_at__month=7)` |
+| `__day` | `int` | Фильтрует по дню месяца (1-31). `Order.objects.filter(created_at__day=5)` |
+| `__week` | `int` | Фильтрует по номеру недели в году (1-53). `Order.objects.filter(created_at__week=27)` |
+| `__week_day`| `int` | Фильтрует по дню недели (1=Вс, **2=Пн** ... 7=Сб). `Order.objects.filter(created_at__week_day=2)` (все заказы за понедельник) |
+| `__quarter`| `int` | Фильтрует по кварталу года (1-4). `Order.objects.filter(created_at__quarter=3)` (заказы 3-го квартала) |
+| `__hour` | `int` | Фильтрует по часу (0-23). `Order.objects.filter(created_at__hour=15)` (заказы, сделанные в 15:xx) |
+| `__minute` | `int` | Фильтрует по минуте (0-59). `Order.objects.filter(created_at__minute__gte=30)` (заказы, сделанные во второй половине часа) |
+| `__second` | `int` | Фильтрует по секунде (0-59). `Order.objects.filter(created_at__second=0)` |
+| **Лукапы, принимающие объекты** |
+| `__date` | `date` объект | Сравнивает только дату, игнорируя время. `from datetime import date`\<br\>`Order.objects.filter(created_at__date=date(2025, 7, 5))` |
+| `__time` | `time` объект | Сравнивает только время, игнорируя дату. `from datetime import time`\<br\>`Order.objects.filter(created_at__time__gt=time(18, 0))` |
+
+-----
+
+### Как с этим работать: Практические примеры
+
+Для этих примеров импортируем необходимые модули:
+`from datetime import datetime, date, time, timedelta`
+
+#### Выборка "позже" и "раньше"
+
+Для сравнения используются стандартные лукапы `gt` (позже), `lt` (раньше), `gte` (позже или равно), `lte` (раньше или равно), которым передается **полноценный `datetime` объект**.
+
+- **Найти все заказы, созданные *после* определенного момента:**
+
+```python
+specific_moment = datetime(2025, 7, 5, 12, 0, 0)
+late_orders = Order.objects.filter(created_at__gt=specific_moment)
+```
+
+- **Найти все заказы, созданные за последние 24 часа:**
+
+```python
+time_threshold = datetime.now() - timedelta(hours=24)
+recent_orders = Order.objects.filter(created_at__gte=time_threshold)
+```
+
+#### Вхождение в диапазон
+
+Используется лукап `__range`, который принимает кортеж (tuple) из двух `datetime` объектов: начало и конец диапазона.
+
+- **Найти все заказы, сделанные в рабочие часы (с 9 до 18) в конкретный день:**
+
+```python
+start_time = datetime(2025, 7, 5, 9, 0)
+end_time = datetime(2025, 7, 5, 18, 0)
+work_hour_orders = Order.objects.filter(created_at__range=(start_time, end_time))
+```
+
+#### Комбинирование лукапов
+
+Вы можете объединять разные лукапы для создания точных запросов.
+
+- **Найти все заказы за Июль, сделанные в первой половине дня (до 12:00):**
+
+```python
+july_morning_orders = Order.objects.filter(
+    created_at__month=7,
+    created_at__hour__lt=12
+)
+```
+
+- **Найти все заказы, сделанные в выходные (суббота и воскресенье) в 2024 году:**
+
+```python
+from django.db.models import Q
+
+weekend_orders_2024 = Order.objects.filter(
+    created_at__year=2024,
+    created_at__week_day__in=[1, 7] # 1=Воскресенье, 7=Суббота
+)
+# Альтернатива с Q-объектом
+weekend_orders_2024_alt = Order.objects.filter(
+    created_at__year=2024,
+    Q(created_at__week_day=1) | Q(created_at__week_day=7)
+)
+```
+## Q Объект как решение для сложных запросов с использованием логических операторов
+
+### Q объект - определение
+
+`Q` объект в Django ORM используется для создания сложных запросов, которые включают логические операторы (`AND`, `OR`, `NOT`). Он позволяет объединять различные условия в один запрос, чтобы получить более точные результаты.
+
+### Использование Q объекта
+
+```python
+from django.db.models import Q
+
+# Разные варианты использования Q объекта
+
+# 1. Создать заранее
+q_object = Q(name='John')
+
+order_query = Order.objects.filter(q_object)
+
+# 2. Использовать Q создавая его прямо внутри фильтра
+order_query = Order.objects.filter(
+    Q(name='Пиппин') | Q(name='Фродо')
+)
+
+# ОПЕРАТОРЫ: | - OR, & - AND, ~ - NOT
+# ИНПЛЕЙС ОПЕРАТОРЫ |=, &=, ~=
+
+
+# 3. Использовать Q "накапливая условия" через инплейс операторы
+
+# Пустой объфект
+q_object = Q()
+
+# Добавляем условие
+q_object &= Q(name='Пиппин')
+
+# Добавляем второе условие
+q_object &= Q(name='Фродо')
+
+# Сделать запрос
+order_query = Order.objects.filter(q_object)
