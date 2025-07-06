@@ -1,32 +1,64 @@
 {% extends "base.html" %}
 {% block content %}
-    {% comment %} Открываем BS5 контейнер и делаем секции-полосы лендинги {% endcomment %}
-    <div class="container mt-5">
-        {% comment %} Полоса - фото + описание
-        2 колонки первая - 4, вторая - 8
-        В первой описание
-        Во второй фото
-        {% endcomment %}
-        <div class="row">
-            <h2>Барбершоп "Арбуз"</h2>
+    <div class="container">
+        {# Секция "О нас" #}
+        <section id="about" class="py-5">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2>О нас</h2>
+                    <p>Текст о барбершопе... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-center">[Карусель с фото]</p>
+                </div>
+            </div>
+        </section>
 
-        </div>
-        {% comment %} 
-        Блок с мастерами
-        {% endcomment %}
-        <div class="row">
-            <h2 id="masters">Мастера</h2>
+        {# Секция "Услуги" #}
+        <section id="services" class="py-5 bg-light">
+            <h2 class="text-center mb-4">Услуги</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <p>[Карточка услуги 1]</p>
+                </div>
+                <div class="col-md-4">
+                    <p>[Карточка услуги 2]</p>
+                </div>
+                <div class="col-md-4">
+                    <p>[Карточка услуги 3]</p>
+                </div>
+            </div>
+        </section>
 
-        </div>
-        {% comment %} 
-        Блок с услугами
-        {% endcomment %}
-        <div class="row">
+        {# Секция "Мастера" #}
+        <section id="masters" class="py-5">
+            <h2 class="text-center mb-4">Наши мастера</h2>
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <p>[Карточка мастера 1]</p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <p>[Карточка мастера 2]</p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <p>[Карточка мастера 3]</p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <p>[Карточка мастера 4]</p>
+                </div>
+            </div>
+        </section>
 
-        </div>
-        <div class="row">
-
-        </div>
+        {# Секция "Записаться" #}
+        <section id="order" class="py-5 bg-light">
+            <h2 class="text-center mb-4">Записаться</h2>
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <p>[Форма для записи]</p>
+                </div>
+            </div>
+        </section>
+    </div>
 {% endblock content %}
 
 {% comment %} #masters
