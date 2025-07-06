@@ -16,15 +16,36 @@
         3. поиск по тексту комментария
         http://127.0.0.1:8000/orders/?q=Фродо&phone=on&name=on&comment=on
         {% endcomment %}
-        <label for="phone">По телефону</label>
-        <input type="checkbox" name="phone" checked>
-        <label for="name">По имени</label>
-        <input type="checkbox" name="name" {% if request.GET.name %}checked{% endif %}>
-        <label for="comment">По тексту комментария</label>
-        <input type="checkbox" name="comment" {% if request.GET.comment %}checked{% endif %}>
+        <label for="search_by_phone">По телефону</label>
+        <input type="checkbox" name="search_by_phone" checked>
+        <label for="search_by_name">По имени</label>
+        <input type="checkbox" name="search_by_name" {% if request.GET.search_by_name %}checked{% endif %}>
+        <label for="search_by_comment">По тексту комментария</label>
+        <input type="checkbox" name="search_by_comment" {% if request.GET.search_by_comment %}checked{% endif %}>
     </fieldset>
     <fieldset>
         <legend>Статусы заявок</legend>
+        {% comment %} 
+        ("new", "Новая"),
+        ("confirmed", "Подтвержденная"),
+        ("completed", "Завершена"),
+        ("canceled", "Отменена"),
+        {% endcomment %}
+        <label for="status_new">Новая</label>
+        <input type="checkbox" name="status_new" checked>
+        <label for="status_confirmed">Подтвержденная</label>
+        <input type="checkbox" name="status_confirmed" {% if request.GET.status_confirmed %}checked{% endif %}>
+        <label for="status_completed">Завершена</label>
+        <input type="checkbox" name="status_completed" {% if request.GET.status_completed %}checked{% endif %}>
+        <label for="status_canceled">Отменена</label>
+        <input type="checkbox" name="status_canceled" {% if request.GET.status_canceled %}checked{% endif %}>
+    </fieldset>
+    <fieldset>
+    <legend>Порядок сортировки</legend>
+        <label for="order_by_date">По убыванию даты</label>
+        <input type="radio" name="order_by_date" value="desc" checked>
+        <label for="order_by_date">По возрастанию даты</label>
+        <input type="radio" name="order_by_date" value="asc">
     </fieldset>
     <button type="submit">Найти</button>
 </form>

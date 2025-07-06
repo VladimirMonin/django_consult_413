@@ -1,6 +1,7 @@
 # core/views.py
 from django.shortcuts import render, HttpResponse
 from .data import orders
+from .models import Order, Master, Service
 from django.contrib.auth.decorators import login_required
 
 
@@ -24,10 +25,23 @@ def orders_list(request):
     """
     Отвечает за маршрут 'orders/'
     """
+    orders = Order.objects.all()
     context = {
         "orders": orders,
     }
     return render(request, "orders_list.html", context=context)
+
+
+
+
+
+
+
+
+
+
+
+
 
 @login_required
 def order_detail(request, order_id):
