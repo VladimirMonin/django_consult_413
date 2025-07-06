@@ -1,6 +1,35 @@
 {% extends "base.html" %}
 {% block content %}   
 <h1>Список заявок</h1>
+
+{% comment %} Форма поиска {% endcomment %}
+<form action="" method="get">
+    <fieldset>
+    <input type="text" name="q" placeholder="Поиск по заявке" value="{{ request.GET.q }}">
+    </fieldset>
+    <fieldset>
+        <legend>Условия выборки</legend>
+        {% comment %} 
+        Чек-боксы \
+        1. поиск по телефону - активирован по-умолчанию
+        2. поиск по имени
+        3. поиск по тексту комментария
+        http://127.0.0.1:8000/orders/?q=Фродо&phone=on&name=on&comment=on
+        {% endcomment %}
+        <label for="phone">По телефону</label>
+        <input type="checkbox" name="phone" checked>
+        <label for="name">По имени</label>
+        <input type="checkbox" name="name" {% if request.GET.name %}checked{% endif %}>
+        <label for="comment">По тексту комментария</label>
+        <input type="checkbox" name="comment" {% if request.GET.comment %}checked{% endif %}>
+    </fieldset>
+    <fieldset>
+        <legend>Статусы заявок</legend>
+    </fieldset>
+    <button type="submit">Найти</button>
+</form>
+
+
     <div class="flex-container">
         {% comment %} Проверка на пустую коллекцию empty{% endcomment %}
         {% for order in orders %}
