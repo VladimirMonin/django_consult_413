@@ -50,40 +50,35 @@ def orders_list(request):
     # order_by_date - desc, asc
     order_by_date = request.GET.get("order_by_date", "desc")
 
-    # Формируем Q пустой
-    q = Q()
+    # 1. Создаем Q-объект для текстового поиска
+    search_q = Q()
+    if search_query:
+        # Внутренние условия поиска объединяем через ИЛИ (|=)
+        if checkbox_phone:
+            search_q |= Q(phone__icontains=search_query)
+        if checkbox_name:
+            search_q |= Q(name__icontains=search_query)
+        if checkbox_comment:
+            search_q |= Q(comment__icontains=search_query)
 
-    # Если есть поиск по телефону
-    if checkbox_phone:
-        # Добавляем в Q условие поиска по телефону
-        q |= Q(phone__icontains=search_query)
-    # Если есть поиск по имени
-    if checkbox_name:
-        # Добавляем в Q условие поиска по имени
-        q |= Q(name__icontains=search_query)
-    if checkbox_comment:
-        # Добавляем в Q условие поиска по комментарию
-        q |= Q(comment__icontains=search_query)
-
-    # Группа по статусам
-    # Если есть статус "Новый"
+    # 2. Создаем Q-объект для фильтрации по статусам
+    status_q = Q()
+    # Условия статусов тоже объединяем через ИЛИ (|=)
     if checkbox_status_new:
-        # Добавляем в Q условие поиска по статусу "Новый"
-        q |= Q(status="new")
-    # Если есть статус "Подтвержден"
+        status_q |= Q(status="new")
     if checkbox_status_confirmed:
-        # Добавляем в Q условие поиска по статусу "Подтвержден"
-        q |= Q(status="confirmed")
-    # Если есть статус "Выполнен"
+        status_q |= Q(status="confirmed")
     if checkbox_status_completed:
-        # Добавляем в Q условие по иска по статусу "Выполнен"
-        q |= Q(status="completed")
+        status_q |= Q(status="completed")
     if checkbox_status_canceled:
-        # Добавляем в Q условие по иска по статусу "Отменен"
-        q |= Q(status="canceled")
+        status_q |= Q(status="canceled")
 
+    # Порядок сортировки
     ordering = "-date_created" if order_by_date == "desc" else "date_created"
-    orders = Order.objects.filter(q).order_by(ordering)
+
+    # 3. Объединяем два Q-объекта через И (&)
+    # Это гарантирует, что запись должна соответствовать И условиям поиска, И условиям статуса
+    orders = Order.objects.filter(search_q & status_q).order_by(ordering)
 
     context = {"orders": orders}
 
