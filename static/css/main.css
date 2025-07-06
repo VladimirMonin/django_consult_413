@@ -155,3 +155,11 @@ h1 {
 .search-form button:hover {
   background-color: #3498db;
 }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-heading);
+}
+
+.footer {
+    background-color: var(--bs-dark);
+}
