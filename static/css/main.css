@@ -1,3 +1,14 @@
+:root {
+  --font-family-base: "Roboto", sans-serif;
+  --font-family-heading: "Playfair Display", serif;
+  --bs-body-font-family: var(--font-family-base);
+  --bs-primary: #8b4513;
+  --bs-secondary: #d2b48c;
+  --bs-light: #f5f5dc;
+  --bs-dark: #322c2b;
+  --bs-white: #ffffff;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;

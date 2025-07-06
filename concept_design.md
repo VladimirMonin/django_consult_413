@@ -1,3 +1,19 @@
+## План работ и коммитов  
+
+НЕ ЗАБЫВАЙ ПРО BS5 иконки!
+
+| № | Что делаем | Файлы | Сообщение коммита |
+|---|------------|-------|-------------------|
+| 1 | Подключаем Google Fonts, обновляем `<head>` | `templates/base.html` | `feat: подключены шрифты Cormorant Garamond и Fira Sans` |
+| 2 | Создаём include карточки мастеров, услуг, отзывов | `templates/include_master_card.html`, `include_service_card.html`, `include_reviews_carousel.html` | `feat: добавлены include-шаблоны карточек мастеров, услуг и отзывов` |
+| 3 | Полная разметка секций лендинга | `templates/landing.html` | `feat: верстка лендинга согласно концепции` |
+| 4 | Обновляем меню (иконки, якоря, пункты staff) | `templates/include_nav_menu.html`, `core/context_processors.py` | `feat: расширено меню, добавлен пункт "Список услуг" для персонала` |
+| 5 | CSS: переменные, карточки, sticky footer | `static/css/main.css` | `style: ретро-стили и фиксированный подвал` |
+| 6 | JS: плавный скролл | `static/js/main.js` | `feat: добавлен плавный скролл по якорям` |
+| 7 | Создаём `OrderForm`, view `order_create`, AJAX-скрипт | `core/forms.py`, `core/views.py`, `static/js/order_form.js`, `templates/include_order_form.html`, `barbershop/urls.py` | `feat: форма заявки, AJAX-отправка и обработка` |
+| 8 | Выводим мастеров, услуги, отзывы в контекст | `core/views.py` | `feat: передача мастеров, услуг и отзывов в шаблон` |
+| 9 | Страница списка услуг для персонала | `core/views.py`, `templates/services_list.html` | `feat: страница списка услуг (доступ staff)` |
+|10 | Адаптивность и финальное тестирование | разн. | `chore: проверка адаптивности и мелкие правки` |
 # Барбершоп «Арбуз»  
 **Bootstrap 5 · Ретро-стиль начала XX века (Царская Россия)**  
 
