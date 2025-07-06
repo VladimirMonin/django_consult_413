@@ -58,21 +58,89 @@ h1 {
 
 /* Стили для статусов */
 .new {
-  color: #27ae60;
+  color: #27ae60; /* Green */
   font-weight: bold;
 }
 
 .confirmed {
-  color: #2980b9;
+  color: #2980b9; /* Blue */
   font-weight: bold;
 }
 
-.rejected {
-  color: #e74c3c;
+.completed {
+  color: #8e44ad; /* Purple */
   font-weight: bold;
 }
 
 .canceled {
-  color: #95a5a6;
+  color: #e74c3c; /* Red */
   font-weight: bold;
+}
+
+/* Стили для формы поиска */
+.search-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: stretch; /* Выравниваем элементы по высоте */
+}
+
+.search-form fieldset {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 0;
+  min-width: 200px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-form .fieldset-highlight {
+  border-color: #2980b9 !important; /* Используем !important для гарантии применения */
+  border-width: 2px;
+}
+
+.search-form legend {
+  font-weight: bold;
+  color: #333;
+  padding: 0 5px;
+}
+
+.search-form input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.search-form .options label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+
+.search-form .options input {
+  margin-right: 5px;
+}
+
+.search-form button {
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: center;
+  height: fit-content;
+}
+
+.search-form button:hover {
+  background-color: #3498db;
 }

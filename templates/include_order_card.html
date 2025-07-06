@@ -3,17 +3,8 @@
             <p>Имя: {{ order.name }}</p>
 
             <p>Дата заявки: {{ order.appointment_date }}</p>
-            <p class= {% if order.status == "new" %}
-            "new"
-            {% elif order.status == "confirmed" %}
-            "confirmed"
-            {% elif order.status == "canceled" %}
-            "rejected"
-            {% elif order.status == "completed" %}
-            "canceled"
-            {% endif %}
-            >Статус заявки: {{ order.status }}</p>
-            <p>Количество услуг: {{ order.services|length }}</p>
+            <p>Статус заявки: <span class="{{ order.status }}">{{ order.get_status_display }}</span></p>
+            <p>Количество услуг: {{ order.services.all|length }}</p>
             <div class="services">
                 {% comment %} цикл для span услуг {% endcomment %}
                 {% for service  in order.services.all  %}
