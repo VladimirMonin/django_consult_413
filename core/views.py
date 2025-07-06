@@ -1,6 +1,7 @@
 # core/views.py
 from django.shortcuts import render, HttpResponse
 from .data import orders
+from django.contrib.auth.decorators import login_required
 
 
 def landing(request):
@@ -18,6 +19,7 @@ def thanks(request):
     return render(request, "thanks.html", context=context)
 
 
+@login_required
 def orders_list(request):
     """
     Отвечает за маршрут 'orders/'
@@ -27,7 +29,7 @@ def orders_list(request):
     }
     return render(request, "orders_list.html", context=context)
 
-
+@login_required
 def order_detail(request, order_id):
     """
     Отвечает за маршрут 'orders/<int:order_id>/'

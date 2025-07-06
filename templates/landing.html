@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+    {% comment %} Открываем BS5 контейнер и делаем секции-полосы лендинги {% endcomment %}
+    <div class="container mt-5">
+        {% comment %} Полоса - фото + описание
+        2 колонки первая - 4, вторая - 8
+        В первой описание
+        Во второй фото
+        {% endcomment %}
+        <div class="row">
+            <h2>Барбершоп "Арбуз"</h2>
+
+        </div>
+        {% comment %} 
+        Блок с мастерами
+        {% endcomment %}
+        <div class="row">
+            <h2 id="masters">Мастера</h2>
+
+        </div>
+        {% comment %} 
+        Блок с услугами
+        {% endcomment %}
+        <div class="row">
+
+        </div>
+        <div class="row">
+
+        </div>
+{% endblock content %}
+
+{% comment %} #masters
+#services
+#reviews
+#get-order
+Главная
+Мастера
+Услуги
+Отзывы
+Записаться {% endcomment %}
