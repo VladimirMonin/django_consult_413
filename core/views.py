@@ -5,7 +5,7 @@ from django.contrib import messages
 from .data import orders
 from .models import Order, Master, Service
 from .forms import OrderForm
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Sum
 
 
 def landing(request):
@@ -107,7 +107,7 @@ def order_detail(request, order_id):
     :param request: HttpRequest
     :param order_id: int (номер заказа)
     """
-    order = Order.objects.get(id=order_id)
+    order = Order.objects.prefetch_related("services").select_related("master").get(id=order_id)
 
     context = {"order": order}
 
