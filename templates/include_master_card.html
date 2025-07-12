@@ -12,8 +12,8 @@
       <h5 class="card-title">{{ master.name }}</h5>
       <p class="card-text text-muted">Опыт: {{ master.experience }} лет</p>
       <div>
-        {% for srv in master.services.all %}
-          <i class="bi bi-scissors text-secondary" title="{{ srv.name }}"></i>
+        {% for masters_service in master.services.all %}
+          <i class="bi bi-scissors text-secondary" title="{{ masters_service.name }}"></i>
         {% endfor %}
       </div>
     </div>
