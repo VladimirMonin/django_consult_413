@@ -11,4 +11,9 @@
                 <span class="service">{{ service.name }}</span>
                 {% endfor %}
             </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'order_detail' order.id %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-right">Детали</i>
+                </a>
+            </div>
         </div>

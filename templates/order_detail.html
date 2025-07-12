@@ -1,43 +1,80 @@
-    {% comment %} {
-        "id": 1,
-        "client_name": "Пётр 'Безголовый' Головин",
-        "services": ["Стрижка под 'Горшок'", "Полировка лысины до блеска"],
-        "master_id": 1,
-        "date": "2025-03-20",
-        "status": STATUS_NEW,
-    } {% endcomment %}
-     
-    <!-- шаблон order_detail.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заказ №{{ order.id }}</title>
-</head>
-<body>
-    <h1>Заказ №{{ order.id }}</h1>
-    <p>Клиент: {{ order.client_name }}</p>
-   
-    {% comment %} Ветвление для статуса {% endcomment %}
+{% extends "base.html" %}
 
-    {% if order.status == "новая" %}
-    <p style="color: green;">Статус: новая</p>
-    {% elif order.status == "подтвержденная" %}
-    <p style="color: orange;">Статус: подтвержденная</p>
-    {% elif order.status == "отмененная" %}
-    <p style="color: gray;">Статус: отмененная</p>
-    {% else %}
-    <p style="color: gold;">Статус: выполненная</p>
-    {% endif %}
+{% block title %}
+Детали заказа #{{ order.id }} - {{ block.super }}
+{% endblock title %}
 
-    {% comment %} <p>Услуги: {{ order.services }} </p> {% endcomment %}
-    <ul>
-        {% for service in order.services %}
-        <li>{{ service }}</li>
-        {% endfor %}
-    </ul>
-    <p>Моя переменная {{ my_fariable }}</p>
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h2 class="card-title h4 mb-0">Детали заказа #{{ order.id }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted">ID заявки</div>
+                        <div class="col-sm-8">{{ order.id }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted">Имя клиента</div>
+                        <div class="col-sm-8">{{ order.name }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted">Телефон</div>
+                        <div class="col-sm-8">{{ order.phone }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted">Дата и время записи</div>
+                        <div class="col-sm-8">{{ order.appointment_date|date:"d.m.Y H:i" }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted">Статус заявки</div>
+                        <div class="col-sm-8"><span class="badge bg-info text-dark">{{ order.get_status_display }}</span></div>
+                    </div>
+                    {% if order.comment %}
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">Комментарий</div>
+                            <div class="col-sm-8">{{ order.comment }}</div>
+                        </div>
+                    {% endif %}
+                    
+                    <hr>
 
-</body>
-</html>
+                    <h4 class="h5 mt-4 mb-3">Мастер</h4>
+                    {% if order.master %}
+                        <p><i class="bi bi-person-check-fill text-success"></i> {{ order.master.name }}</p>
+                    {% else %}
+                        <p class="text-muted"><i class="bi bi-person-dash-fill text-warning"></i> Мастер еще не назначен</p>
+                    {% endif %}
+
+                    <hr>
+
+                    <h4 class="h5 mt-4 mb-3">Выбранные услуги</h4>
+                    {% if order.services.all %}
+                        <ul class="list-group list-group-flush">
+                            {% for service in order.services.all %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ service.name }}
+                                    <span class="badge bg-primary rounded-pill">{{ service.price|floatformat:"0" }} ₽</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">Услуги не выбраны.</p>
+                    {% endif %}
+                </div>
+                <div class="card-footer text-muted text-center">
+                    <small>Заказ создан: {{ order.date_created|date:"d.m.Y H:i" }}</small>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'orders' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Назад к списку заказов
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
