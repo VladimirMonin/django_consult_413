@@ -1,0 +1,22 @@
+{% load static %}
+<div class="col">
+  <div class="card h-100 text-center position-relative">
+    {% if service.is_popular %}
+      <span class="badge bg-warning position-absolute top-0 end-0">Хит</span>
+    {% endif %}
+    {% if service.image %}
+      <img src="{{ service.image.url }}"
+           class="card-img-top" alt="{{ service.name }}">
+    {% else %}
+      <img src="{% static 'images/default_service.png' %}"
+           class="card-img-top" alt="{{ service.name }}">
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">{{ service.name }}</h5>
+      <p class="card-text">{{ service.description|truncatewords:12 }}</p>
+    </div>
+    <div class="card-footer">
+      <span class="fw-bold">{{ service.price }} ₽</span>
+    </div>
+  </div>
+</div>

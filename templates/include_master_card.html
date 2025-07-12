@@ -1,0 +1,21 @@
+{% load static %}
+<div class="col">
+  <div class="card text-center h-100">
+    {% if master.photo %}
+      <img src="{{ master.photo.url }}"
+           class="rounded-circle mx-auto d-block mt-3" style="width:120px;height:120px;" alt="{{ master.name }}">
+    {% else %}
+      <img src="{% static 'images/default_master.png' %}"
+           class="rounded-circle mx-auto d-block mt-3" style="width:120px;height:120px;" alt="{{ master.name }}">
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">{{ master.name }}</h5>
+      <p class="card-text text-muted">Опыт: {{ master.experience }} лет</p>
+      <div>
+        {% for srv in master.services.all %}
+          <i class="bi bi-scissors text-secondary" title="{{ srv.name }}"></i>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

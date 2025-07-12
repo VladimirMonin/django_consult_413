@@ -1,94 +1,171 @@
+/* Ретро-стили барбершопа "Арбуз" согласно концепции */
 :root {
-  --font-family-base: "Roboto", sans-serif;
-  --font-family-heading: "Playfair Display", serif;
-  --bs-body-font-family: var(--font-family-base);
-  --bs-primary: #8b4513;
-  --bs-secondary: #d2b48c;
-  --bs-light: #f5f5dc;
-  --bs-dark: #322c2b;
-  --bs-white: #ffffff;
+  --bs-body-bg: #f8f4ec;
+  --bs-body-font-family: "Fira Sans", sans-serif;
+  --font-family-heading: "Cormorant Garamond", serif;
+  --brand-gold: #c79b3c;
+  --brand-green: #0f5132;
+  --brand-sepia: #704214;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-  background-color: #f5f5f5;
+  background-color: var(--bs-body-bg);
+  font-family: var(--bs-body-font-family);
+}
+
+/* Типографика */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+  color: var(--brand-sepia);
 }
 
 h1 {
-  text-align: center;
-  color: #333;
+  font-size: 3.5rem;
+  line-height: 1.2;
 }
 
-.flex-container {
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Hero секция */
+#top {
+  background: linear-gradient(135deg, var(--bs-body-bg) 0%, #ffffff 100%);
+  min-height: 80vh;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  padding: 20px;
+  align-items: center;
 }
 
-.flex-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 300px;
+/* Карточки */
+.card {
+  border: 2px solid var(--brand-gold);
+  box-shadow: 0 4px 12px rgba(112, 66, 20, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(112, 66, 20, 0.15);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.flex-card:hover {
-  transform: translateY(-5px);
+.card:hover .card-img-top {
+  transform: scale(1.05);
 }
 
-.flex-card h2 {
-  margin-top: 0;
-  color: #2c3e50;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+.card-title {
+  color: var(--brand-sepia);
+  font-family: var(--font-family-heading);
+  font-weight: 700;
 }
 
-.flex-card p {
-  margin: 10px 0;
+.card-footer {
+  background-color: var(--brand-gold);
+  border-top: none;
+  color: white;
+  font-weight: bold;
 }
 
-.services {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 15px;
+/* Карточки мастеров */
+.card .rounded-circle {
+  border: 3px solid var(--brand-gold);
+  object-fit: cover;
 }
 
-.service {
-  background-color: #e0f7fa;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 0.9em;
+/* Секции */
+section {
+  padding: 4rem 0;
 }
 
-/* Стили для статусов */
+#get-order {
+  position: relative;
+  z-index: 2;
+}
+
+/* Кнопки */
+.btn {
+  border-radius: 0.375rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Badge для популярных услуг */
+.badge {
+  font-size: 0.75rem;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 10;
+}
+
+/* Footer */
+.footer-dark {
+  background: var(--brand-green);
+  color: #fff;
+  padding: 2rem 0;
+}
+
+.footer-dark a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-dark a:hover {
+  color: var(--brand-gold);
+}
+
+.footer-dark h5 {
+  color: #fff;
+}
+
+/* Стили для статусов заявок */
 .new {
-  color: #27ae60; /* Green */
+  color: #27ae60;
   font-weight: bold;
 }
 
 .confirmed {
-  color: #2980b9; /* Blue */
+  color: #2980b9;
   font-weight: bold;
 }
 
 .completed {
-  color: #8e44ad; /* Purple */
+  color: #8e44ad;
   font-weight: bold;
 }
 
 .canceled {
-  color: #e74c3c; /* Red */
+  color: #e74c3c;
   font-weight: bold;
 }
 
-/* Стили для формы поиска */
+/* Форма поиска */
 .search-form {
   background-color: white;
   padding: 20px;
@@ -98,7 +175,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  align-items: stretch; /* Выравниваем элементы по высоте */
+  align-items: stretch;
 }
 
 .search-form fieldset {
@@ -113,14 +190,15 @@ h1 {
 }
 
 .search-form .fieldset-highlight {
-  border-color: #2980b9 !important; /* Используем !important для гарантии применения */
+  border-color: var(--brand-gold) !important;
   border-width: 2px;
 }
 
 .search-form legend {
   font-weight: bold;
-  color: #333;
+  color: var(--brand-sepia);
   padding: 0 5px;
+  font-family: var(--font-family-heading);
 }
 
 .search-form input[type="text"] {
@@ -142,7 +220,7 @@ h1 {
 }
 
 .search-form button {
-  background-color: #2980b9;
+  background-color: var(--brand-gold);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -150,16 +228,125 @@ h1 {
   cursor: pointer;
   align-self: center;
   height: fit-content;
+  font-weight: 600;
 }
 
 .search-form button:hover {
-  background-color: #3498db;
+  background-color: var(--brand-sepia);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-family-heading);
+/* Flex контейнеры для карточек */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
 }
 
-.footer {
-    background-color: var(--bs-dark);
+.flex-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  transition: transform 0.3s ease;
+  border: 1px solid var(--brand-gold);
+}
+
+.flex-card:hover {
+  transform: translateY(-5px);
+}
+
+.flex-card h2 {
+  margin-top: 0;
+  color: var(--brand-sepia);
+  border-bottom: 2px solid var(--brand-gold);
+  padding-bottom: 10px;
+  font-family: var(--font-family-heading);
+}
+
+.flex-card p {
+  margin: 10px 0;
+}
+
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.service {
+  background-color: var(--brand-gold);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+/* Карусель отзывов - исправленная версия */
+#reviewsCarousel {
+    padding: 2rem 0;
+}
+
+#reviewsCarousel .carousel-inner {
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+}
+
+#reviewsCarousel .carousel-item {
+    width: 100%;
+}
+
+#reviewsCarousel .blockquote {
+  margin-bottom: 1rem;
+  max-width: 800px; /* Ограничиваем ширину цитаты */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#reviewsCarousel .blockquote p {
+  font-size: 1.2rem; /* Увеличиваем размер шрифта */
+  line-height: 1.8; /* Увеличиваем межстрочный интервал */
+  margin-bottom: 0;
+}
+
+/* Стили для кнопок карусели на темном фоне */
+#reviewsCarousel .carousel-control-prev-icon,
+#reviewsCarousel .carousel-control-next-icon {
+  background-color: var(--brand-gold);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  section {
+    padding: 2rem 0;
+  }
+  
+  #reviewsCarousel {
+    min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
+  }
+  
+  #reviewsCarousel .carousel-inner {
+    min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
+  }
+  
+  #reviewsCarousel .carousel-item {
+    min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
+    font-size: 1rem; /* Корректируем размер шрифта для мобильных устройств */
+  }
 }

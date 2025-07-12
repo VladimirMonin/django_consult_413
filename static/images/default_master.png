@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <circle cx="60" cy="60" r="60" fill="#f8f4ec" stroke="#c79b3c" stroke-width="3"/>
+  <circle cx="60" cy="45" r="15" fill="#704214"/>
+  <path d="M35 90 Q60 75 85 90" fill="#704214"/>
+  <text x="60" y="110" text-anchor="middle" font-family="serif" font-size="10" fill="#0f5132">Мастер</text>
+</svg>

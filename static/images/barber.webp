@@ -1,0 +1,14 @@
+<!-- Placeholder для главной картинки барбера -->
+<!-- В реальном проекте здесь должна быть WebP картинка -->
+<!-- Создаю SVG placeholder на время разработки -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" style="background: linear-gradient(135deg, #f8f4ec 0%, #c79b3c 100%);">
+  <rect width="400" height="300" fill="url(#grad)" />
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f4ec;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c79b3c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <text x="200" y="140" text-anchor="middle" font-family="serif" font-size="24" fill="#704214">Барбер</text>
+  <text x="200" y="170" text-anchor="middle" font-family="serif" font-size="16" fill="#0f5132">за работой</text>
+</svg>

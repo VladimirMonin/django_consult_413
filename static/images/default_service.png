@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#f8f4ec" stroke="#c79b3c" stroke-width="2"/>
+  <g transform="translate(100,100)">
+    <!-- Ножницы -->
+    <g fill="#704214">
+      <circle cx="-20" cy="-10" r="8"/>
+      <circle cx="20" cy="-10" r="8"/>
+      <rect x="-25" y="-2" width="50" height="4"/>
+      <polygon points="-30,-15 -15,-5 -15,5 -30,15"/>
+      <polygon points="30,-15 15,-5 15,5 30,15"/>
+    </g>
+    <text y="30" text-anchor="middle" font-family="serif" font-size="12" fill="#0f5132">Услуга</text>
+  </g>
+</svg>

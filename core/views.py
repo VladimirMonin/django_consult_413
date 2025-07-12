@@ -1,8 +1,10 @@
 # core/views.py
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
+from django.contrib import messages
 from .data import orders
 from .models import Order, Master, Service
-from django.contrib.auth.decorators import login_required
+from .forms import OrderForm
 from django.db.models import Q
 
 
@@ -10,7 +12,16 @@ def landing(request):
     """
     Отвечает за маршрут '/'
     """
-    return HttpResponse("<h1>Главная страница</h1>")
+    masters = Master.objects.all()
+    services = Service.objects.all()
+    # reviews = Review.objects.all()  # Модель Review еще не создана
+
+    context = {
+        "masters": masters,
+        "services": services,
+        # "reviews": reviews,
+    }
+    return render(request, "landing.html", context=context)
 
 
 def thanks(request):
@@ -21,7 +32,6 @@ def thanks(request):
     return render(request, "thanks.html", context=context)
 
 
-@login_required
 def orders_list(request):
     """
     Отвечает за маршрут 'orders/'
@@ -85,7 +95,6 @@ def orders_list(request):
     return render(request, "orders_list.html", context=context)
 
 
-@login_required
 def order_detail(request, order_id):
     """
     Отвечает за маршрут 'orders/<int:order_id>/'
@@ -104,3 +113,25 @@ def order_detail(request, order_id):
 
     else:
         return render(request, "order_detail.html", context=context)
+
+
+def order_page(request):
+    form = OrderForm()
+    return render(request, 'order_page.html', {'form': form})
+
+def order_create(request):
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Заявка успешно отправлена!")
+            return redirect("thanks")
+        # Если форма невалидна, снова рендерим страницу с формой и ошибками
+        return render(request, 'order_page.html', {'form': form})
+    # Если метод не POST, перенаправляем на страницу с формой
+    return redirect('order-page')
+
+
+def services_list(request):
+    services = Service.objects.all()
+    return render(request, "services_list.html", {"services": services})

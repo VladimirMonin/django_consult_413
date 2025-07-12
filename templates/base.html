@@ -7,7 +7,7 @@
     {% comment %} Подключаю шрифты {% endcomment %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Fira+Sans:wght@400&display=swap" rel="stylesheet">
     {% comment %} Подключаю 2мя ссылками BS5 и BS5 иконки {% endcomment %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -29,9 +29,30 @@
         {% block content %}{% endblock %}
       </main>
     
-      <footer class="footer mt-auto py-3 bg-dark text-white">
-        <div class="container text-center">
-          <span>© 2024 BARBERSHOP "TSAR"</span>
+      <footer class="footer-dark mt-auto">
+        <div class="container text-center text-md-start">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <h5 class="mb-3">Барбершоп «Арбуз»</h5>
+              <p>г. Петербург, Невский пр., 42</p>
+              <p>Ежедневно 10:00-22:00</p>
+            </div>
+            <div class="col-md-4 mb-3">
+              <h5 class="mb-3">Контакты</h5>
+              <p><i class="bi bi-telephone"></i> +7 900 000-00-00</p>
+              <p><i class="bi bi-envelope"></i> hello@arbuz.barber</p>
+            </div>
+            <div class="col-md-4 mb-3">
+              <h5 class="mb-3">Мы в соцсетях</h5>
+              <a class="text-white me-2" href="#"><i class="bi bi-instagram"></i></a>
+              <a class="text-white me-2" href="#"><i class="bi bi-telegram"></i></a>
+              <a class="text-white" href="#"><i class="bi bi-vk"></i></a>
+            </div>
+          </div>
+          <hr class="my-4">
+          <div class="text-center">
+            <span>© 2024 Барбершоп «Арбуз»</span>
+          </div>
         </div>
       </footer>
     </div>
@@ -39,5 +60,18 @@
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
      {% comment %} Подключаю свои скрипты {% endcomment %}
      <script src="{% static 'js/main.js' %}"></script>
+
+    {# Toast для уведомлений #}
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="order-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Барбершоп "Арбуз"</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Ваша заявка успешно отправлена! Мы скоро свяжемся с вами.
+            </div>
+        </div>
+    </div>
 </body>
 </html>

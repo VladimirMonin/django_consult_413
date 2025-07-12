@@ -1,0 +1,24 @@
+{% load static %}
+<form id="order-form" method="post" action="{% url 'order-create' %}" class="row g-3">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="col-12">{{ form.name.label_tag }} {{ form.name }}</div>
+  <div class="col-12">{{ form.phone.label_tag }} {{ form.phone }}</div>
+  <div class="col-12">
+      <p class="mb-1">{{ form.services.label_tag }}</p>
+      <div class="row">
+          {% for choice in form.services %}
+          <div class="col-6 form-check">
+              {{ choice.tag }}
+              <label class="form-check-label" for="{{ choice.id_for_label }}">
+                  {{ choice.choice_label }}
+              </label>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+  <div class="col-12">{{ form.appointment_date.label_tag }} {{ form.appointment_date }}</div>
+  <div class="col-12 text-center mt-4">
+    <button class="btn btn-success px-5" type="submit">Записаться</button>
+  </div>
+</form>

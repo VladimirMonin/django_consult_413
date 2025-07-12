@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Список услуг{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h1 class="mb-4">Список услуг</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Цена, ₽</th>
+        <th>Длительность, мин</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for service in services %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ service.name }}</td>
+        <td>{{ service.description }}</td>
+        <td>{{ service.price }}</td>
+        <td>{{ service.duration }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">Услуги не найдены.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

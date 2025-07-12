@@ -1,13 +1,13 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--brand-green);">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'landing' %}">BARBERSHOP "TSAR"</a>
+        <a class="navbar-brand fw-bold" href="{% url 'landing' %}" style="font-family: var(--font-family-heading); color: var(--brand-gold);">Барбершоп «Арбуз»</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                {% for item in menu %}
+                {% for item in menu_items %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ item.url }}">
                             <i class="bi {{ item.icon_class }}"></i> {{ item.name }}
@@ -16,26 +16,13 @@
                 {% endfor %}
             </ul>
             <ul class="navbar-nav">
-                {% if user.is_authenticated %}
-                    {% for item in staff_menu %}
-                         <li class="nav-item">
-                            <a class="nav-link" href="{{ item.url }}">
-                                <i class="bi {{ item.icon_class }}"></i> {{ item.name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">
-                            <i class="bi bi-box-arrow-right"></i> Выход
+                {% for item in menu_staff_items %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{ item.url }}">
+                            <i class="bi {{ item.icon_class }}"></i> {{ item.name }}
                         </a>
                     </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">
-                            <i class="bi bi-box-arrow-in-right"></i> Вход
-                        </a>
-                    </li>
-                {% endif %}
+                {% endfor %}
             </ul>
         </div>
     </div>
