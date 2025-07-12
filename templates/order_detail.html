@@ -57,9 +57,13 @@
                             {% for service in order.services.all %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     {{ service.name }}
-                                    <span class="badge bg-primary rounded-pill">{{ service.price|floatformat:"0" }} ₽</span>
+                                    <span class="badge bg-warning rounded-pill">{{ service.price|floatformat:"0" }} ₽</span>
                                 </li>
                             {% endfor %}
+                            {% comment %} total_price {% endcomment %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Итого:</strong>
+                                <span class="badge bg-success rounded-pill">{{ order.total_price }} ₽</span>
                         </ul>
                     {% else %}
                         <p class="text-muted">Услуги не выбраны.</p>
