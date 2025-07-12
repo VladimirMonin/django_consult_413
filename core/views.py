@@ -5,14 +5,15 @@ from django.contrib import messages
 from .data import orders
 from .models import Order, Master, Service
 from .forms import OrderForm
-from django.db.models import Q
+from django.db.models import Q, Count
 
 
 def landing(request):
     """
     Отвечает за маршрут '/'
     """
-    masters = Master.objects.prefetch_related("services").all()
+    # masters = Master.objects.prefetch_related("services").all()
+    masters = Master.objects.prefetch_related('services').annotate(num_services=Count('services'))
     
     # Получаем все услуги отдельным запросом
     services = Service.objects.all()

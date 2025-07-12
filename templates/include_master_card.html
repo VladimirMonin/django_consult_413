@@ -11,6 +11,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ master.name }}</h5>
       <p class="card-text text-muted">Опыт: {{ master.experience }} лет</p>
+      <p class="card-text text-muted">Предоставляет услуг: {{ master.num_services }} </p>
       <div>
         {% for masters_service in master.services.all %}
           <i class="bi bi-scissors text-secondary" title="{{ masters_service.name }}"></i>
