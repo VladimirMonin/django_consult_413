@@ -1,0 +1,59 @@
+:root {
+  --brand-gold: #c79b3c;
+  --brand-green: #0f5132;
+  --brand-sepia: #704214;
+  --bs-body-bg: #f8f4ec;
+}
+
+/* Основной фон */
+body.jazzmin-login, body.jazzmin-login #content, .main-footer, .main-sidebar, .main-header {
+    background-color: var(--bs-body-bg) !important;
+}
+
+/* Цвет текста */
+.main-sidebar .nav-link, .main-header .nav-link, .brand-text {
+    color: var(--brand-sepia) !important;
+}
+
+/* Активные ссылки и ховер */
+.main-sidebar .nav-link.active, .main-sidebar .nav-link:hover {
+    background-color: var(--brand-gold) !important;
+    color: white !important;
+}
+
+/* Кнопки */
+.btn-primary {
+    background-color: var(--brand-gold) !important;
+    border-color: var(--brand-gold) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--brand-sepia) !important;
+    border-color: var(--brand-sepia) !important;
+}
+
+.btn-secondary {
+    background-color: var(--brand-green) !important;
+    border-color: var(--brand-green) !important;
+    color: white !important;
+}
+
+.btn-secondary:hover {
+    background-color: #0a3a23 !important;
+    border-color: #0a3a23 !important;
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Cormorant Garamond", serif !important;
+    color: var(--brand-sepia) !important;
+}
+
+/* Ссылки */
+a {
+    color: var(--brand-gold);
+}
+
+a:hover {
+    color: var(--brand-sepia);
+}
