@@ -109,6 +109,8 @@ def order_detail(request, order_id):
     """
     order = Order.objects.prefetch_related("services").select_related("master").annotate(total_price=Sum('services__price')).get(id=order_id)
 
+    #TODO Добавить в модель Order view_count. Миграции. Дописать логику обновления через F объект. Сделать коммит. Допишу логику с сохранением в сессию во избежании накруторк!
+
     context = {"order": order}
 
     return render(request, "order_detail.html", context=context)
