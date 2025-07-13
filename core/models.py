@@ -11,15 +11,20 @@ class Order(models.Model):
 
     name = models.CharField(max_length=100, verbose_name="Имя")
     phone = models.CharField(max_length=20, verbose_name="Телефон")
-    comment = models.CharField(max_length=500, null=True, blank=True)
+    comment = models.CharField(max_length=500, null=True, blank=True, verbose_name="Комментарий")
     status = models.CharField(choices=STATUS_CHOICES, default="new", max_length=20, verbose_name="Статус")
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name="Дата создания")
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name="Дата обновления")
     master = models.ForeignKey("Master", on_delete=models.SET_NULL, null=True, verbose_name="Мастер")
     appointment_date = models.DateTimeField(null=True, blank=True, verbose_name="Дата записи")
     services = models.ManyToManyField("Service", verbose_name="Услуги", default=None, related_name="orders")
+    
     def __str__(self):
         return f"{self.name} - {self.phone}"
+    
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
 
 
 class Master(models.Model):
@@ -34,6 +39,10 @@ class Master(models.Model):
     services = models.ManyToManyField("Service", verbose_name="Услуги", default=None, related_name="masters")
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Мастер"
+        verbose_name_plural = "Мастера"
 
 
 class Service(models.Model):
@@ -50,3 +59,7 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Услуга"
+        verbose_name_plural = "Услуги"
