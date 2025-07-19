@@ -1,11 +1,12 @@
 # core/views.py
 from django.shortcuts import render, HttpResponse, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib import messages
 from .data import orders
 from .models import Order, Master, Service
 from .forms import OrderForm
 from django.db.models import Q, Count, Sum
+
 
 
 def landing(request):
@@ -136,3 +137,46 @@ def order_create(request):
 def services_list(request):
     services = Service.objects.all()
     return render(request, "services_list.html", {"services": services})
+
+
+
+def service_create(request):
+    if request.method == "GET":
+        # Дать пустой шаблон
+        context = {
+            "operation_type": "Создание услуги",
+        }
+        return render(request, "service_form.html", context=context)
+    
+    elif request.method == "POST":
+        # Получить данные из объекта запроса
+        service_name = request.POST.get("service_name")
+        service_description = request.POST.get("service_description")
+        service_price = request.POST.get("service_price")
+
+        if service_name and service_description and service_price and service_price.isdigit():
+            # Создать объект сервиса
+            service = Service.objects.create(
+                name=service_name,
+                description=service_description,
+                price=service_price
+            )
+            # Сохранить объект в БД
+            service.save()
+            # Перенаправить на страницу со списком услуг
+            return redirect("services-list")
+        else:
+            messages.error(request, "Ошибка при создании услуги")
+
+            context = {
+                "operation_type": "Создание услуги",
+            }
+            return render(request, "service_form.html", context=context)
+        
+    else:
+        # Вернуть ошибку 405 (Метод не разрешен)
+        return HttpResponseNotAllowed(["GET", "POST"])
+
+
+def service_update(request, service_id):
+    pass
