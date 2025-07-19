@@ -161,8 +161,7 @@ def service_create(request):
                 description=service_description,
                 price=service_price
             )
-            # Сохранить объект в БД
-            service.save()
+            
             # Перенаправить на страницу со списком услуг
             return redirect("services-list")
         else:
@@ -179,4 +178,56 @@ def service_create(request):
 
 
 def service_update(request, service_id):
-    pass
+    if request.method == "GET":
+        # Дать форму с данными этой услуги
+        try:
+            service = Service.objects.get(id=service_id)
+        except Service.DoesNotExist:
+            # Если нет такой услуги, дам 404
+            return HttpResponse("Услуга не найдена", status=404)
+        
+        
+        
+        context = {
+            "operation_type": "Обновление услуги",
+            "service": service,
+
+        }
+        return render(request, "service_form.html", context=context)
+    
+    elif request.method == "POST":
+        # Получить данные из объекта запроса
+        service_name = request.POST.get("service_name")
+        service_description = request.POST.get("service_description")
+        service_price = request.POST.get("service_price")
+
+        
+
+        # Получить объект сервиса
+        service = Service.objects.get(id=service_id)
+        service_price = float(service_price.replace(",", "."))
+        if service_name and service_description and service_price:
+            
+            # Создать объект сервиса
+            service = Service.objects.update(
+                name=service_name,
+                description=service_description,
+                price=service_price
+            )
+
+            
+    
+            # Перенаправить на страницу со списком услуг
+            return redirect("services-list")
+        else:
+            messages.error(request, "Ошибка при создании услуги")
+
+            context = {
+                "operation_type": "Обновление услуги",
+                "service": service,
+            }
+            return render(request, "service_form.html", context=context)
+        
+    else:
+        # Вернуть ошибку 405 (Метод не разрешен)
+        return HttpResponseNotAllowed(["GET", "POST"])
