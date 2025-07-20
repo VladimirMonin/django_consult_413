@@ -54,7 +54,7 @@ class Service(models.Model):
     )
     is_popular = models.BooleanField(default=False, verbose_name="Популярная услуга")
     image = models.ImageField(
-        upload_to="services/", blank=True, verbose_name="Изображение"
+        upload_to="services/", blank=True, null=True, verbose_name="Изображение"
     )
 
     def __str__(self):
