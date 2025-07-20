@@ -16,7 +16,7 @@ class Order(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True, verbose_name="Дата создания")
     date_updated = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name="Дата обновления")
     master = models.ForeignKey("Master", on_delete=models.SET_NULL, null=True, verbose_name="Мастер")
-    appointment_date = models.DateTimeField(null=True, blank=True, verbose_name="Дата записи")
+    appointment_date = models.DateField(null=True, blank=True, verbose_name="Дата записи")
     services = models.ManyToManyField("Service", verbose_name="Услуги", default=None, related_name="orders")
     
     def __str__(self):

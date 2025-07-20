@@ -11,9 +11,9 @@ from core.views import (
     order_detail,
     order_create,
     services_list,
-    order_page,
     service_create,
     service_update,
+    order_update,
 )
 
 
@@ -25,9 +25,9 @@ urlpatterns = [
     path("orders/<int:order_id>/", order_detail, name="order_detail"),
     path("order/create/", order_create, name="order-create"),
     path("services/", services_list, name="services-list"),
-    path("order/", order_page, name="order-page"),
     path("service/create/", service_create, name="service-create"),
     path("service/update/<int:service_id>/", service_update, name="service-update"),
+    path("order/update/<int:order_id>/", order_update, name="order-update"),
 ]
 
 # Добавляем Статику и Медиа ЕСЛИ в режиме разработки

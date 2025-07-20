@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib import messages
 from .data import orders
 from .models import Order, Master, Service
-from .forms import ServiceForm
+from .forms import ServiceForm, OrderForm
 from django.db.models import Q, Count, Sum
 
 
@@ -126,11 +126,6 @@ def order_detail(request, order_id):
     return render(request, "order_detail.html", context=context)
 
 
-def order_page(request):
-    form = OrderForm()
-    return render(request, "order_page.html", {"form": form})
-
-
 def order_create(request):
     if request.method == "POST":
         form = OrderForm(request.POST)
@@ -138,10 +133,35 @@ def order_create(request):
             form.save()
             messages.success(request, "Заявка успешно отправлена!")
             return redirect("thanks")
-        # Если форма невалидна, снова рендерим страницу с формой и ошибками
-        return render(request, "order_page.html", {"form": form})
-    # Если метод не POST, перенаправляем на страницу с формой
-    return redirect("order-page")
+    else:
+        form = OrderForm()
+
+    return render(request, "order_page.html", {"form": form})
+
+
+def order_update(request, order_id):
+    """
+    Отвечает за маршрут 'orders/<int:order_id>/update/'
+    """
+    try:
+        order = Order.objects.get(id=order_id)
+    except Order.DoesNotExist:
+        return HttpResponse("Заказ не найден", status=404)
+
+    if request.method == "POST":
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Заказ №{order.id} успешно обновлен.")
+            return redirect("order_detail", order_id=order.id)
+    else:
+        form = OrderForm(instance=order)
+
+    context = {
+        "form": form,
+        "operation_type": f"Обновление заказа №{order.id}",
+    }
+    return render(request, "order_class_form.html", context)
 
 
 def services_list(request):
@@ -200,57 +220,34 @@ def service_create(request):
 
 
 def service_update(request, service_id):
-    if request.method == "GET":
-        # Дать форму с данными этой услуги
-        try:
-            service = Service.objects.get(id=service_id)
-        except Service.DoesNotExist:
-            # Если нет такой услуги, дам 404
-            return HttpResponse("Услуга не найдена", status=404)
+    """
+    Отвечает за маршрут 'services/<int:service_id>/update/'
+    """
+    try:
+        service = Service.objects.get(id=service_id)
+    except Service.DoesNotExist:
+        # Если нет такой услуги, вернем 404
+        return HttpResponse("Услуга не найдена", status=404)
 
-        form = ServiceForm(
-            initial={
-                "name": service.name,
-                "description": service.description,
-                "price": service.price,
-                "duration": service.duration,
-                "is_popular": service.is_popular,
-                "image": service.image,
-            }
-        )
+    if request.method == "GET":
+        # Для GET-запроса создаем форму, связанную с существующим объектом
+        form = ServiceForm(instance=service)
         context = {
             "operation_type": "Обновление услуги",
-            "service": service,
             "form": form,
         }
         return render(request, "service_class_form.html", context=context)
 
     elif request.method == "POST":
-        # Создаем форму и помещаем в нее данные из POST-запроса
-        form = ServiceForm(request.POST)
-        # Проверяем, что форма валидна
+        # Для POST-запроса создаем форму с данными из запроса и связываем с объектом
+        form = ServiceForm(request.POST, request.FILES, instance=service)
         if form.is_valid():
-            # Добываем данные из формы
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            price = form.cleaned_data["price"]
-            duration = form.cleaned_data["duration"]
-            is_popular = form.cleaned_data["is_popular"]
-            image = form.cleaned_data["image"]
-
-            # Обновляем объект услуги
-            service = Service.objects.filter(id=service_id).update(
-                name=name,
-                description=description,
-                price=price,
-                duration=duration,
-                is_popular=is_popular,
-                image=image,
-            )
-
-            # Перенаправить на страницу со списком услуг
+            # Если форма валидна, сохраняем изменения
+            form.save()
+            messages.success(request, f"Услуга '{service.name}' успешно обновлена.")
             return redirect("services-list")
         else:
+            # Если форма невалидна, снова отображаем страницу с формой и ошибками
             context = {
                 "operation_type": "Обновление услуги",
                 "form": form,
@@ -258,5 +255,5 @@ def service_update(request, service_id):
             return render(request, "service_class_form.html", context=context)
 
     else:
-        # Вернуть ошибку 405 (Метод не разрешен)
+        # Для всех других методов возвращаем ошибку
         return HttpResponseNotAllowed(["GET", "POST"])
