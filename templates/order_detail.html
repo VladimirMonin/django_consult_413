@@ -74,6 +74,9 @@
                 </div>
             </div>
             <div class="text-center mt-4">
+                <a href="{% url 'order-update' order.id %}" class="btn btn-primary">
+                    <i class="bi bi-pencil-square"></i> Редактировать
+                </a>
                 <a href="{% url 'orders' %}" class="btn btn-outline-secondary">
                     <i class="bi bi-arrow-left"></i> Назад к списку заказов
                 </a>

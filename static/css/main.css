@@ -258,6 +258,32 @@ section {
   transform: translateY(-5px);
 }
 
+.flex-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 15px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--brand-sepia);
+  transition: color 0.3s ease;
+}
+
+.btn-icon:hover {
+  color: var(--brand-gold);
+}
+
 .flex-card h2 {
   margin-top: 0;
   color: var(--brand-sepia);
@@ -288,17 +314,17 @@ section {
 
 /* Карусель отзывов - исправленная версия */
 #reviewsCarousel {
-    padding: 2rem 0;
+  padding: 2rem 0;
 }
 
 #reviewsCarousel .carousel-inner {
-    min-height: 250px;
-    display: flex;
-    align-items: center;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
 }
 
 #reviewsCarousel .carousel-item {
-    width: 100%;
+  width: 100%;
 }
 
 #reviewsCarousel .blockquote {
@@ -328,23 +354,23 @@ section {
   h1 {
     font-size: 2.5rem;
   }
-  
+
   h2 {
     font-size: 2rem;
   }
-  
+
   section {
     padding: 2rem 0;
   }
-  
+
   #reviewsCarousel {
     min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
   }
-  
+
   #reviewsCarousel .carousel-inner {
     min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
   }
-  
+
   #reviewsCarousel .carousel-item {
     min-height: 200px; /* Увеличиваем минимальную высоту для мобильных устройств */
     font-size: 1rem; /* Корректируем размер шрифта для мобильных устройств */

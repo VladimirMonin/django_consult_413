@@ -11,9 +11,12 @@
                 <span class="service">{{ service.name }}</span>
                 {% endfor %}
             </div>
-            <div class="text-center mt-4">
-                <a href="{% url 'order_detail' order.id %}" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-right">Детали</i>
+            <div class="card-actions">
+                <a href="{% url 'order_detail' order.id %}" class="btn btn-icon" title="Детали">
+                    <i class="bi bi-eye"></i>
+                </a>
+                <a href="{% url 'order-update' order.id %}" class="btn btn-icon" title="Редактировать">
+                    <i class="bi bi-pencil-square"></i>
                 </a>
             </div>
         </div>
