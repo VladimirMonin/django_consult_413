@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib import messages
 from .data import orders
 from .models import Order, Master, Service
-from .forms import OrderForm
+from .forms import ServiceForm
 from django.db.models import Q, Count, Sum
 
 
@@ -142,33 +142,46 @@ def services_list(request):
 
 def service_create(request):
     if request.method == "GET":
-        # Дать пустой шаблон
+        # Создать пустую форму
+        form = ServiceForm()
         context = {
             "operation_type": "Создание услуги",
+            "form": form,
         }
         return render(request, "service_form.html", context=context)
     
     elif request.method == "POST":
-        # Получить данные из объекта запроса
-        service_name = request.POST.get("service_name")
-        service_description = request.POST.get("service_description")
-        service_price = request.POST.get("service_price")
+        # Создаем форму и помещаем в нее данные из POST-запроса
+        form = ServiceForm(request.POST)
 
-        if service_name and service_description and service_price and service_price.isdigit():
-            # Создать объект сервиса
-            service = Service.objects.create(
-                name=service_name,
-                description=service_description,
-                price=service_price
+        # Проверяем, что форма валидна
+        if form.is_valid():
+            # Добываем данные из формы
+            name = form.cleaned_data["name"]
+            description = form.cleaned_data["description"]
+            price = form.cleaned_data["price"]
+            duration = form.cleaned_data["duration"]
+            is_popular = form.cleaned_data["is_popular"]
+            image =  form.cleaned_data["image"]
+
+            # Создать объект услуги
+            service = Service(
+                name=name,
+                description=description,
+                price=price,
+                duration=duration,
+                is_popular=is_popular,
+                image=image
             )
+            # Сохранить объект в БД
+            service.save()
             
             # Перенаправить на страницу со списком услуг
             return redirect("services-list")
         else:
-            messages.error(request, "Ошибка при создании услуги")
-
             context = {
                 "operation_type": "Создание услуги",
+                "form": form,
             }
             return render(request, "service_form.html", context=context)
         

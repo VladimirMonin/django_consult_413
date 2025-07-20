@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+{{ operation_type}}
+{% endblock title %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <h1>{{ operation_type}} {{service.id}}</h1>
+    </div>
+    <div class="row">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-dark">{{ operation_type}}</button>
+        </form>
+    </div>
+{% endblock content %}
