@@ -13,7 +13,8 @@ class ServiceForm(forms.Form):
     description = forms.CharField(
         widget=forms.Textarea(
             attrs={"placeholder": "Описание услуги", "class": "form-control"}
-        )
+        ),
+        help_text="Введите продающее описание услуги",
     )
     price = forms.DecimalField(
         max_digits=10,
@@ -29,7 +30,7 @@ class ServiceForm(forms.Form):
         required=False, widget=forms.CheckboxInput(attrs={"class": "form-check-input"})
     )
     image = forms.ImageField(
-        required=False, widget=forms.FileInput(attrs={"class": "form-control"})
+        required=False, widget=forms.FileInput(attrs={"class": "form-control"}), help_text="Квадратное изображение не меньше 500х500"
     )
 
 

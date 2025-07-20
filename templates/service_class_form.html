@@ -10,8 +10,33 @@
     <div class="row">
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-dark">{{ operation_type}}</button>
+            {% for field in form %}
+        <div class="mt-3">
+            <!-- Выводим ошибки для конкретного поля (если есть) -->
+            {% if field.errors %}
+                <div class="alert alert-danger">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+
+            <!-- Выводим само поле (виджет) -->
+            {{ field }}
+
+            <!-- Можно добавить кастомную логику, например, для чекбокса -->
+            {% if field.name == 'is_popular' %}
+                <label class="form-check-label" for="{{ field.id_for_label }}">
+                    Популярная услуга
+                </label>
+            {% endif %}
+
+            <!-- Выводим текст помощи, если он есть -->
+            {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+             {% endfor %}
+        </div>
+            <button type="submit" class="btn btn-dark mt-3 mb-3">{{ operation_type}}</button>
         </form>
     </div>
+   
 {% endblock content %}
