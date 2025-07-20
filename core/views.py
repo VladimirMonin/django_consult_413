@@ -148,7 +148,7 @@ def service_create(request):
             "operation_type": "Создание услуги",
             "form": form,
         }
-        return render(request, "service_form.html", context=context)
+        return render(request, "service_class_form.html", context=context)
     
     elif request.method == "POST":
         # Создаем форму и помещаем в нее данные из POST-запроса
@@ -183,7 +183,7 @@ def service_create(request):
                 "operation_type": "Создание услуги",
                 "form": form,
             }
-            return render(request, "service_form.html", context=context)
+            return render(request, "service_class_form.html", context=context)
         
     else:
         # Вернуть ошибку 405 (Метод не разрешен)
@@ -206,7 +206,7 @@ def service_update(request, service_id):
             "service": service,
 
         }
-        return render(request, "service_form.html", context=context)
+        return render(request, "service_class_form.html", context=context)
     
     elif request.method == "POST":
         # Получить данные из объекта запроса
@@ -239,7 +239,7 @@ def service_update(request, service_id):
                 "operation_type": "Обновление услуги",
                 "service": service,
             }
-            return render(request, "service_form.html", context=context)
+            return render(request, "service_class_form.html", context=context)
         
     else:
         # Вернуть ошибку 405 (Метод не разрешен)
