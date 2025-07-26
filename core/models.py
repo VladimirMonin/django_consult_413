@@ -107,7 +107,7 @@ class Review(models.Model):
     name = models.CharField(max_length=50, verbose_name="Имя", blank=True, null=True)
     text = models.TextField(verbose_name="Текст отзыва")
     rating = models.PositiveSmallIntegerField(
-        choices=RATING_CHOICES, verbose_name="Рейтинг"
+        choices=RATING_CHOICES, verbose_name="Рейтинг", default=5
     )
     master = models.ForeignKey(
         Master,

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}
+Напишите ваш отзыв о нас
+{% endblock title %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <h1>Напишите ваш отзыв о нас</h1>
+    </div>
+    <div class="row">
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+        <div class="mt-3">
+            <!-- Выводим ошибки для конкретного поля (если есть) -->
+            {% if field.errors %}
+                <div class="alert alert-danger">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+
+            <!-- Выводим само поле (виджет) -->
+            {{ field }}
+
+            <!-- Выводим текст помощи, если он есть -->
+            {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+             {% endfor %}
+        </div>
+            <button type="submit" class="btn btn-dark mt-3 mb-3">Отправить отзыв</button>
+        </form>
+    </div>
+   
+{% endblock content %}

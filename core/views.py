@@ -3,9 +3,25 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib import messages
 from .data import orders
-from .models import Order, Master, Service
-from .forms import ServiceForm, OrderForm
+from .models import Order, Master, Service, Review
+from .forms import ServiceForm, OrderForm, ReviewModelForm
 from django.db.models import Q, Count, Sum
+
+
+def review_create(request):
+    if request.method == "GET":
+        form = ReviewModelForm()
+        return render(request, "review_class_form.html", {"form": form})
+    
+    elif request.method == "POST":
+        form = ReviewModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("landing")
+        else:
+            return render(request, "review_class_form.html", {"form": form})
+
+
 
 
 def landing(request):
