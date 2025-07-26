@@ -1,7 +1,7 @@
 from typing import Any
 from django.contrib import admin
 from django.db.models import QuerySet, Sum
-from .models import Master, Order, Service
+from .models import Master, Order, Service, Review
 
 admin.site.register(Master)
 # admin.site.register(Order)
@@ -131,3 +131,20 @@ class OrderAdmin(admin.ModelAdmin):
         return sum(
             [service.price for order in orders for service in order.services.all()]
         )
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ["master", "rating", "status", "created_at"]
+    list_filter = ["master", "rating", "status"]
+    search_fields = ["master__name", "comment"]
+    readonly_fields = ["created_at", "rating"]
+    list_editable = ["status"]
+    list_per_page = 10
+    actions = ["check_published"]
+
+    @admin.action(description="Опубликовать отзыв")
+    def check_published(self, request, queryset):
+        queryset.update(status="published")
+    
+    
