@@ -191,3 +191,6 @@ MISTRAL_MODERATIONS_GRADES = {
     "law": 0.1,  # закон
     "pii": 0.1,  # личная информация
 }
+
+TELEGRAM_BOT_API_KEY = os.getenv("TELEGRAM_BOT_API_KEY")
+TELEGRAM_USER_ID = os.getenv("TELEGRAM_USER_ID")
