@@ -1,5 +1,5 @@
 # signals.py
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from .models import Review, Order
 from .mistral import is_bad_review
@@ -10,18 +10,26 @@ import asyncio
 api_key = settings.TELEGRAM_BOT_API_KEY
 user_id = settings.TELEGRAM_USER_ID
 
-@receiver(post_save, sender=Order)
-def notify_telegram_on_order_create(sender, instance, created, **kwargs):
+@receiver(m2m_changed, sender=Order.services.through)
+def notify_telegram_on_order_create(sender, instance, action, **kwargs):
+    """
+    Обработчик сигнала m2m_changed для модели Order.
+    Он обрабатывает добавление КАЖДОЙ услуги в запись на консультацию.
+    """
     try:
-        if created and not kwargs.get('raw', False):
+        # action - post_add - Добавление записи в таблицу многие ко многим
+        # kwargs.get('pk_set') - список первичных ключей добавленных записей - создается только при добавлении записи в таблицу 
+        if action == 'post_add' and kwargs.get('pk_set'):
+            list_services = [service.name for service in instance.services.all()]
+            appointment_date = instance.appointment_date.strftime("%d.%m.%Y") if instance.appointment_date else "Не указана"
             tg_markdown_message = f"""
 
 ====== *Новый заказ!* ======
 **Имя:** {instance.name}
 **Телефон:** {instance.phone}
 **Мастер:** {instance.master.name}
-**Дата записи:** {instance.appointment_date}
-**Услуги:** {', '.join([service.name for service in instance.services.all()])}
+**Дата записи:** {appointment_date}
+**Услуги:** {', '.join(list_services)}
 **Комментарий:** {instance.comment}
 
 **Подробнее:** http://127.0.0.1:8000/admin/core/order/{instance.id}/change/
