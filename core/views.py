@@ -152,7 +152,7 @@ def order_create(request):
     else:
         form = OrderForm()
 
-    return render(request, "order_page.html", {"form": form})
+    return render(request, "order_class_form.html", {"form": form})
 
 
 def order_update(request, order_id):
