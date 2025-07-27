@@ -21,15 +21,18 @@
                         {% endfor %}
                             {% comment %} Если поле services то мы заходим в рендер чекбоксов услуг {% endcomment %}
                             {% if field.name == 'services' %}
-                            <div class="row">
-                                {% for choice in form.services %}
-                                    <div class="col-6 form-check">
-                                        {{ choice.tag }}
-                                        <label class="form-check-label" for="{{ choice.id_for_label }}">
-                                            {{ choice.choice_label }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
+                            <div class="mb-3">
+                                <label class="form-label">{{ field.label }}</label>
+                                <div id="services-container" class="row">
+                                    {% for choice in form.services %}
+                                        <div class="col-6 form-check">
+                                            {{ choice.tag }}
+                                            <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                                {{ choice.choice_label }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                             {% else %}
                             <div class="mb-3">

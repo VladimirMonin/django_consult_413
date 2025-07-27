@@ -8,6 +8,14 @@ from .forms import ServiceForm, OrderForm, ReviewModelForm
 from django.db.models import Q, Count, Sum
 
 
+def get_services_by_master(request, master_id):
+    master = Master.objects.prefetch_related("services").get(id=master_id)
+    services = master.services.all()
+
+    services_data = [{"id": service.id, "name": service.name} for service in services]
+
+    return JsonResponse({"services": services_data})
+
 def review_create(request):
     if request.method == "GET":
         form = ReviewModelForm()
