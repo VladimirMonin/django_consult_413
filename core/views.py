@@ -171,29 +171,42 @@ def orders_list(request):
     return render(request, "orders_list.html", context=context)
 
 
-def order_detail(request, order_id):
-    """
-    Отвечает за маршрут 'orders/<int:order_id>/'
-    :param request: HttpRequest
-    :param order_id: int (номер заказа)
-    """
-    order = (
-        Order.objects.prefetch_related("services")
-        .select_related("master")
-        .annotate(total_price=Sum("services__price"))
-        .get(id=order_id)
-    )
-    # Проверяем сессию пользователя - если записи нет - вносим и добавляем просмотры. Если есть - пропускаем
-    if not request.session.get(f"order_{order_id}_viewed"):
-        request.session[f"order_{order_id}_viewed"] = True
-        order.view_count = F("view_count") + 1
-        order.save(update_fields=["view_count"])
-        order.refresh_from_db()
-    
-    context = {"order": order}
+class OrderDetailView(DetailView):
+    model = Order
+    template_name = "order_detail.html"
+    context_object_name = "order"
+    pk_url_kwarg = "order_id" # Указываем, что id брать из URL kwarg 'order_id'
 
-    return render(request, "order_detail.html", context=context)
+    def get_queryset(self):
+        """
+        Лучшее место для "жадной" загрузки и аннотаций.
+        Этот метод подготавливает оптимизированный QuerySet.
+        """
+        queryset = super().get_queryset()
+        return queryset.select_related("master").prefetch_related("services").annotate(
+            total_price=Sum("services__price")
+        )
 
+    def get_object(self, queryset=None):
+        """
+        Лучшее место для логики, специфичной для одного объекта.
+        Например, для счетчика просмотров.
+        """
+        # Сначала получаем объект стандартным способом (он будет взят из queryset,
+        # который мы определили в get_queryset)
+        order = super().get_object(queryset)
+
+        # Теперь выполняем логику с сессией и счетчиком
+        session_key = f"order_{order.id}_viewed"
+        if not self.request.session.get(session_key):
+            self.request.session[session_key] = True
+            # Атомарно увеличиваем счетчик в БД
+            order.view_count = F("view_count") + 1
+            order.save(update_fields=["view_count"])
+            # Обновляем объект из БД, чтобы в шаблоне было актуальное значение
+            order.refresh_from_db()
+
+        return order
 
 def order_create(request):
     if request.method == "POST":
