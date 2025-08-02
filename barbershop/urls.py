@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.urls import path
 from debug_toolbar.toolbar import debug_toolbar_urls
 from core.views import (
-    landing,
+    LandingTemplateView,
     ThanksTemplateView,
     orders_list,
     order_detail,
@@ -15,13 +15,13 @@ from core.views import (
     service_update,
     order_update,
     review_create,
-    AjaxMasterSrvicesView,
+    AjaxMasterServicesView,
 )
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", landing, name="landing"),
+    path("", LandingTemplateView.as_view(), name="landing"),
     path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
     path("orders/", orders_list, name="orders"),
     path("orders/<int:order_id>/", order_detail, name="order_detail"),
@@ -33,7 +33,7 @@ urlpatterns = [
     path("order/update/<int:order_id>/", order_update, name="order-update"),
 
     # AJAX вью для отдачи массива объектов услуг по ID мастера
-    path("ajax/services/<int:master_id>/", AjaxMasterSrvicesView.as_view(), name="get_services_by_master"),
+    path("ajax/services/<int:master_id>/", AjaxMasterServicesView.as_view(), name="get_services_by_master"),
 ]
 
 # Добавляем Статику и Медиа ЕСЛИ в режиме разработки

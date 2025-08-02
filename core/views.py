@@ -24,11 +24,14 @@ class AjaxMasterServicesView(View):
     Вью для отдачи массива объектов услуг по ID мастера.
     Обслуживает AJAX запросы формы создания заказа.
     """
+
     def get(self, request, master_id):
         master = Master.objects.prefetch_related("services").get(id=master_id)
         services = master.services.all()
 
-        services_data = [{"id": service.id, "name": service.name} for service in services]
+        services_data = [
+            {"id": service.id, "name": service.name} for service in services
+        ]
 
         return JsonResponse({"services": services_data})
 
@@ -47,27 +50,20 @@ def review_create(request):
         else:
             return render(request, "review_class_form.html", {"form": form})
 
+class LandingTemplateView(TemplateView):
+    """Классовая view для главной страницы"""
 
-def landing(request):
-    """
-    Отвечает за маршрут '/'
-    """
-    # masters = Master.objects.prefetch_related("services").all()
-    masters = Master.objects.prefetch_related("services").annotate(
-        num_services=Count("services")
-    )
+    template_name = "landing.html"
 
-    # Получаем все услуги отдельным запросом
-    services = Service.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["masters"] = Master.objects.prefetch_related("services").annotate(
+            num_services=Count("services")
+        )
+        context["services"] = Service.objects.all()
+        context["reviews"] = Review.objects.all()
 
-    # reviews = Review.objects.all()  # Модель Review еще не создана
-
-    context = {
-        "masters": masters,
-        "services": services,
-        # "reviews": reviews,
-    }
-    return render(request, "landing.html", context=context)
+        return context
 
 
 class ThanksTemplateView(TemplateView):
@@ -91,15 +87,19 @@ class ThanksTemplateView(TemplateView):
             source = kwargs["source"]
             if source == "order-create":
                 context["title"] = "Спасибо за заказ!"
-                context["message"] = "Ваш заказ принт. Скоро с вами свяжется наш менеджер для уточнения деталей."
+                context["message"] = (
+                    "Ваш заказ принт. Скоро с вами свяжется наш менеджер для уточнения деталей."
+                )
             elif source == "review-create":
                 context["title"] = "Спасибо за отзыв!"
-                context["message"] = "Ваш отзыв принят и отправлен на модерацию. После проверки он появится на сайте."
+                context["message"] = (
+                    "Ваш отзыв принят и отправлен на модерацию. После проверки он появится на сайте."
+                )
 
         else:
             context["title"] = "Спасибо!"
             context["message"] = "Спасибо за ваше обращение!"
-        
+
         return context
 
 
