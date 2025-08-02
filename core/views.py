@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib import messages
 from .models import Order, Master, Service, Review
 from .forms import ServiceForm, OrderForm, ReviewModelForm
-from django.db.models import Q, Count, Sum
+from django.db.models import Q, Count, Sum, F
 
 # Импорт классовых вью, View, TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
@@ -183,9 +183,13 @@ def order_detail(request, order_id):
         .annotate(total_price=Sum("services__price"))
         .get(id=order_id)
     )
-
-    # TODO Добавить в модель Order view_count. Миграции. Дописать логику обновления через F объект. Сделать коммит. Допишу логику с сохранением в сессию во избежании накруторк!
-
+    # Проверяем сессию пользователя - если записи нет - вносим и добавляем просмотры. Если есть - пропускаем
+    if not request.session.get(f"order_{order_id}_viewed"):
+        request.session[f"order_{order_id}_viewed"] = True
+        order.view_count = F("view_count") + 1
+        order.save(update_fields=["view_count"])
+        order.refresh_from_db()
+    
     context = {"order": order}
 
     return render(request, "order_detail.html", context=context)

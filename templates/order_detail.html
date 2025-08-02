@@ -27,7 +27,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4 text-muted">Дата и время записи</div>
-                        <div class="col-sm-8">{{ order.appointment_date|date:"d.m.Y H:i" }}</div>
+                        <div class="col-sm-8">{{ order.appointment_date }}</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4 text-muted">Статус заявки</div>
@@ -38,6 +38,10 @@
                             <div class="col-sm-4 text-muted">Комментарий</div>
                             <div class="col-sm-8">{{ order.comment }}</div>
                         </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted">Количество просмотров</div>
+                        <div class="col-sm-8"><span class="badge bg-info text-dark">{{ order.view_count }}</span></div>
+                    </div>
                     {% endif %}
                     
                     <hr>
