@@ -2,10 +2,21 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib import messages
-from .data import orders
 from .models import Order, Master, Service, Review
 from .forms import ServiceForm, OrderForm, ReviewModelForm
 from django.db.models import Q, Count, Sum
+
+# Импорт классовых вью, View, TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views import View
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+    TemplateView,
+)
+from django.urls import reverse_lazy, reverse
 
 
 def get_services_by_master(request, master_id):
@@ -16,20 +27,20 @@ def get_services_by_master(request, master_id):
 
     return JsonResponse({"services": services_data})
 
+
 def review_create(request):
     if request.method == "GET":
         form = ReviewModelForm()
         return render(request, "review_class_form.html", {"form": form})
-    
+
     elif request.method == "POST":
         form = ReviewModelForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect("landing")
+            # Перенаправим на thanks и передадим source = review-create
+            return redirect("thanks", source="review-create")
         else:
             return render(request, "review_class_form.html", {"form": form})
-
-
 
 
 def landing(request):
@@ -54,12 +65,37 @@ def landing(request):
     return render(request, "landing.html", context=context)
 
 
-def thanks(request):
+class ThanksTemplateView(TemplateView):
     """
-    Отвечает за маршрут 'thanks/'
+    Классовая view для маршрута 'thanks/'
     """
-    context = {"test_var": "Привет из базового шаблона!"}
-    return render(request, "thanks.html", context=context)
+
+    template_name = "thanks.html"
+
+    def get_context_data(self, **kwargs):
+        """
+        Расширение get_context_data для возможности передать в шаблон {{ title }} и {{ message }}.
+
+        Они будут разные, в зависимости от куда пришел человек.
+        Со страницы order/create/ с псевдонимом order-create
+        Или со страницы review/create/ с псевдонимом review-create
+        """
+        context = super().get_context_data(**kwargs)
+
+        if kwargs["source"]:
+            source = kwargs["source"]
+            if source == "order-create":
+                context["title"] = "Спасибо за заказ!"
+                context["message"] = "Ваш заказ принт. Скоро с вами свяжется наш менеджер для уточнения деталей."
+            elif source == "review-create":
+                context["title"] = "Спасибо за отзыв!"
+                context["message"] = "Ваш отзыв принят и отправлен на модерацию. После проверки он появится на сайте."
+
+        else:
+            context["title"] = "Спасибо!"
+            context["message"] = "Спасибо за ваше обращение!"
+        
+        return context
 
 
 def orders_list(request):
@@ -156,7 +192,7 @@ def order_create(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Заявка успешно отправлена!")
-            return redirect("thanks")
+            return redirect("thanks", source="order-create")
     else:
         form = OrderForm()
 

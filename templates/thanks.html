@@ -1,10 +1,13 @@
 {% extends "base.html" %}
+{% block title %}
+{{ title }}
+{% endblock title %}
 {% block content %}
 <div class="container mt-5">
     <div class="p-5 mb-4 bg-primary-subtle border rounded-3">
         <div class="container-fluid py-5 text-center">
-            <h1 class="display-5 fw-bold">Спасибо за заявку!</h1>
-            <p class="fs-4">Мы свяжемся с вами в ближайшее время!</p>
+            <h1 class="display-5 fw-bold">{{ title }}</h1>
+            <p class="fs-4">{{ message }}</p>
             <a href="/" class="btn btn-dark btn-lg" type="button">Вернуться на главную</a>
         </div>
     </div>

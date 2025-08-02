@@ -6,7 +6,7 @@ from django.urls import path
 from debug_toolbar.toolbar import debug_toolbar_urls
 from core.views import (
     landing,
-    thanks,
+    ThanksTemplateView,
     orders_list,
     order_detail,
     order_create,
@@ -22,7 +22,7 @@ from core.views import (
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", landing, name="landing"),
-    path("thanks/", thanks, name="thanks"),
+    path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
     path("orders/", orders_list, name="orders"),
     path("orders/<int:order_id>/", order_detail, name="order_detail"),
     path("order/create/", order_create, name="order-create"),
