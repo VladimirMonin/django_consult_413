@@ -39,4 +39,30 @@
         {% include "include_order_card.html" %}
         {% endfor %}
     </div>
+
+    {% comment %} Пагинатор BS5 
+    Не активная страница   <li class="page-item"><a class="page-link" href="#">2</a></li>
+    Активная страница
+    <li class="page-item active" aria-current="page">
+            <span class="page-link">1</span>
+    {% endcomment %}
+
+    {% comment %} Проверим есть ли другие страницы {% endcomment %}
+    {% if orders.has_other_pages %}
+        <nav aria-label="...">
+            <ul class="pagination pagination-lg">
+                {% comment %} Открываю цикл шаблонизатора {% endcomment %}
+                {% for page in orders.paginator.page_range %}
+                {% comment %} Проверяем на текущую страницу {% endcomment %}
+                {% if page == orders.number %}
+                   <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+                {% else %}
+                   <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock content %} 
