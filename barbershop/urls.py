@@ -7,7 +7,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from core.views import (
     LandingTemplateView,
     ThanksTemplateView,
-    orders_list,
+    OrderListView,
     OrderDetailView,
     order_create,
     ServicesListView,
@@ -23,7 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", LandingTemplateView.as_view(), name="landing"),
     path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
-    path("orders/", orders_list, name="orders"),
+    path("orders/", OrderListView.as_view(), name="orders"),
     path("orders/<int:order_id>/", OrderDetailView.as_view(), name="order_detail"),
     path("order/create/", order_create, name="order-create"),
     path("review/create/", review_create, name="review-create"),

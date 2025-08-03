@@ -170,6 +170,77 @@ def orders_list(request):
 
     return render(request, "orders_list.html", context=context)
 
+class OrderListView(ListView):
+    model = Order
+    template_name = "orders_list.html"
+    context_object_name = "orders"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Получаю из GET запроса все данные URL
+        # ПОИСКОВАЯ ФОРМА
+        search_query = self.request.GET.get("q", "")
+        # ЧЕКБОКСЫ выборки по полям
+        # 1. поиск по телефону - search_by_phone
+        # 2. поиск по имени - search_by_name
+        # 3. поиск по тексту комментария - search_by_comment
+        checkbox_name = self.request.GET.get("search_by_name", "")
+        checkbox_phone = self.request.GET.get("search_by_phone", "")
+        checkbox_comment = self.request.GET.get("search_by_comment", "")
+        # ЧЕКББОКСЫ выборки по статусам
+        # status_new
+        # status_confirmed
+        # status_completed
+        # status_canceled
+        checkbox_status_new = self.request.GET.get("status_new", "")
+        checkbox_status_confirmed = self.request.GET.get("status_confirmed", "")
+        checkbox_status_completed = self.request.GET.get("status_completed", "")
+        checkbox_status_canceled = self.request.GET.get("status_canceled", "")
+
+        # РАДИОКНОПКА Порядок сортировки по дате
+        # order_by_date - desc, asc
+        order_by_date = self.request.GET.get("order_by_date", "desc")
+
+        # 1. Создаем Q-объект для текстового поиска
+        search_q = Q()
+        if search_query:
+            # Внутренние условия поиска объединяем через ИЛИ (|=)
+            if checkbox_phone:
+                search_q |= Q(phone__icontains=search_query)
+            if checkbox_name:
+                search_q |= Q(name__icontains=search_query)
+            if checkbox_comment:
+                search_q |= Q(comment__icontains=search_query)
+
+        # 2. Создаем Q-объект для фильтрации по статусам
+        status_q = Q()
+        # Условия статусов тоже объединяем через ИЛИ (|=)
+        if checkbox_status_new:
+            status_q |= Q(status="new")
+        if checkbox_status_confirmed:
+            status_q |= Q(status="confirmed")
+        if checkbox_status_completed:
+            status_q |= Q(status="completed")
+        if checkbox_status_canceled:
+            status_q |= Q(status="canceled")
+
+        # Порядок сортировки
+        ordering = "-date_created" if order_by_date == "desc" else "date_created"
+
+        # 3. Объединяем два Q-объекта через И (&)
+        # Это гарантирует, что запись должна соответствовать И условиям поиска, И условиям статуса
+        orders = (
+            queryset.prefetch_related("services")
+            .select_related("master")
+            .filter(search_q & status_q)
+            .order_by(ordering)
+        )
+
+        return orders
+
+
+
+
 
 class OrderDetailView(DetailView):
     model = Order
