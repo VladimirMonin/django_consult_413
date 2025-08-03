@@ -11,7 +11,7 @@ from core.views import (
     OrderDetailView,
     order_create,
     ServicesListView,
-    service_create,
+    ServiceCreateView,
     service_update,
     order_update,
     review_create,
@@ -28,7 +28,7 @@ urlpatterns = [
     path("order/create/", order_create, name="order-create"),
     path("review/create/", review_create, name="review-create"),
     path("services/", ServicesListView.as_view(), name="services-list"),
-    path("service/create/", service_create, name="service-create"),
+    path("service/create/", ServiceCreateView.as_view(), name="service-create"),
     path("service/update/<int:service_id>/", service_update, name="service-update"),
     path("order/update/<int:order_id>/", order_update, name="order-update"),
 

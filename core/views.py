@@ -103,73 +103,6 @@ class ThanksTemplateView(TemplateView):
         return context
 
 
-def orders_list(request):
-    """
-    Отвечает за маршрут 'orders/'
-    """
-    # Получаю из GET запроса все данные URL
-    # ПОИСКОВАЯ ФОРМА
-    search_query = request.GET.get("q", "")
-    # ЧЕКБОКСЫ выборки по полям
-    # 1. поиск по телефону - search_by_phone
-    # 2. поиск по имени - search_by_name
-    # 3. поиск по тексту комментария - search_by_comment
-    checkbox_name = request.GET.get("search_by_name", "")
-    checkbox_phone = request.GET.get("search_by_phone", "")
-    checkbox_comment = request.GET.get("search_by_comment", "")
-    # ЧЕКББОКСЫ выборки по статусам
-    # status_new
-    # status_confirmed
-    # status_completed
-    # status_canceled
-    checkbox_status_new = request.GET.get("status_new", "")
-    checkbox_status_confirmed = request.GET.get("status_confirmed", "")
-    checkbox_status_completed = request.GET.get("status_completed", "")
-    checkbox_status_canceled = request.GET.get("status_canceled", "")
-
-    # РАДИОКНОПКА Порядок сортировки по дате
-    # order_by_date - desc, asc
-    order_by_date = request.GET.get("order_by_date", "desc")
-
-    # 1. Создаем Q-объект для текстового поиска
-    search_q = Q()
-    if search_query:
-        # Внутренние условия поиска объединяем через ИЛИ (|=)
-        if checkbox_phone:
-            search_q |= Q(phone__icontains=search_query)
-        if checkbox_name:
-            search_q |= Q(name__icontains=search_query)
-        if checkbox_comment:
-            search_q |= Q(comment__icontains=search_query)
-
-    # 2. Создаем Q-объект для фильтрации по статусам
-    status_q = Q()
-    # Условия статусов тоже объединяем через ИЛИ (|=)
-    if checkbox_status_new:
-        status_q |= Q(status="new")
-    if checkbox_status_confirmed:
-        status_q |= Q(status="confirmed")
-    if checkbox_status_completed:
-        status_q |= Q(status="completed")
-    if checkbox_status_canceled:
-        status_q |= Q(status="canceled")
-
-    # Порядок сортировки
-    ordering = "-date_created" if order_by_date == "desc" else "date_created"
-
-    # 3. Объединяем два Q-объекта через И (&)
-    # Это гарантирует, что запись должна соответствовать И условиям поиска, И условиям статуса
-    orders = (
-        Order.objects.prefetch_related("services")
-        .select_related("master")
-        .filter(search_q & status_q)
-        .order_by(ordering)
-    )
-
-    context = {"orders": orders}
-
-    return render(request, "orders_list.html", context=context)
-
 class OrderListView(ListView):
     model = Order
     template_name = "orders_list.html"
@@ -325,54 +258,50 @@ class ServicesListView(ListView):
     # context_object_name = "services"
 
 
-def service_create(request):
-    if request.method == "GET":
-        # Создать пустую форму
-        form = ServiceForm()
-        context = {
-            "operation_type": "Создание услуги",
-            "form": form,
-        }
-        return render(request, "service_class_form.html", context=context)
+# def service_create(request):
+#     if request.method == "GET":
+#         # Создать пустую форму
+#         form = ServiceForm()
+#         context = {
+#             "operation_type": "Создание услуги",
+#             "form": form,
+#         }
+#         return render(request, "service_class_form.html", context=context)
 
-    elif request.method == "POST":
-        # Создаем форму и помещаем в нее данные из POST-запроса
-        form = ServiceForm(request.POST)
+#     elif request.method == "POST":
+#         # Создаем форму и помещаем в нее данные из POST-запроса
+#         form = ServiceForm(request.POST)
 
-        # Проверяем, что форма валидна
-        if form.is_valid():
-            # Добываем данные из формы
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            price = form.cleaned_data["price"]
-            duration = form.cleaned_data["duration"]
-            is_popular = form.cleaned_data["is_popular"]
-            image = form.cleaned_data["image"]
+#         # Проверяем, что форма валидна
+#         if form.is_valid():
+#             # Создаем объект модели на основе данных из формы
+#             form.save()
+#             # Добавляем сообщение об успешном создании услуги
+#             messages.success(request, "Услуга успешно создана!")
+#             # Перенаправить на страницу со списком услуг
+#             return redirect("services-list")
+#         else:
+#             messages.error(request, "Ошибка валидации формы! Проверьте введенные данные.")
+#             context = {
+#                 "operation_type": "Создание услуги",
+#                 "form": form,
+#             }
+#             return render(request, "service_class_form.html", context=context)
 
-            # Создать объект услуги
-            service = Service(
-                name=name,
-                description=description,
-                price=price,
-                duration=duration,
-                is_popular=is_popular,
-                image=image,
-            )
-            # Сохранить объект в БД
-            service.save()
+#     else:
+#         # Вернуть ошибку 405 (Метод не разрешен)
+#         return HttpResponseNotAllowed(["GET", "POST"])
 
-            # Перенаправить на страницу со списком услуг
-            return redirect("services-list")
-        else:
-            context = {
-                "operation_type": "Создание услуги",
-                "form": form,
-            }
-            return render(request, "service_class_form.html", context=context)
 
-    else:
-        # Вернуть ошибку 405 (Метод не разрешен)
-        return HttpResponseNotAllowed(["GET", "POST"])
+class ServiceCreateView(CreateView):
+    form_class = ServiceForm
+    template_name = "service_class_form.html"
+    success_url = reverse_lazy("services-list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Создание услуги"
+        return context
 
 
 def service_update(request, service_id):

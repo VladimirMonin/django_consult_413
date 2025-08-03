@@ -38,6 +38,12 @@ class ServiceForm(forms.ModelForm):
             "image": "Квадратное изображение не меньше 500х500",
         }
 
+    def clean_price(self):
+        price = self.cleaned_data.get("price")
+        if price < 0:
+            raise forms.ValidationError("Цена не может быть отрицательной")
+        return price
+
 
 class OrderForm(forms.ModelForm):
     class Meta:
