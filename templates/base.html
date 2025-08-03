@@ -62,16 +62,18 @@
      <script src="{% static 'js/main.js' %}"></script>
      <script src="{% static 'js/order_form.js' %}"></script>
     {# Toast для уведомлений #}
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="order-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto">Барбершоп "Арбуз"</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                Ваша заявка успешно отправлена! Мы скоро свяжемся с вами.
-            </div>
-        </div>
-    </div>
+    {# Контейнер для динамических уведомлений (toasts) #}
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+   {% if messages %}
+       {% for message in messages %}
+           {# Адаптируем теги сообщений Django (success, error) к классам Bootstrap (alert-success, alert-danger) #}
+           <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert" id="message-{{ forloop.counter }}">
+               {{ message }}
+               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+           </div>
+       {% endfor %}
+   {% endif %}
+</div>
+
 </body>
 </html>
