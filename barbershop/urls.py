@@ -9,12 +9,12 @@ from core.views import (
     ThanksTemplateView,
     OrderListView,
     OrderDetailView,
-    order_create,
+    OrderCreateView,
     ServicesListView,
     ServiceCreateView,
     ServiceUpdateView,
-    order_update,
-    review_create,
+    OrderUpdateView,
+    ReviewCreateView,
     AjaxMasterServicesView,
 )
 
@@ -25,12 +25,12 @@ urlpatterns = [
     path("thanks/<str:source>/", ThanksTemplateView.as_view(), name="thanks"),
     path("orders/", OrderListView.as_view(), name="orders"),
     path("orders/<int:order_id>/", OrderDetailView.as_view(), name="order_detail"),
-    path("order/create/", order_create, name="order-create"),
-    path("review/create/", review_create, name="review-create"),
+    path("order/create/", OrderCreateView.as_view(), name="order-create"),
+    path("review/create/", ReviewCreateView.as_view(), name="review-create"),
     path("services/", ServicesListView.as_view(), name="services-list"),
     path("service/create/", ServiceCreateView.as_view(), name="service-create"),
     path("service/update/<int:service_id>/", ServiceUpdateView.as_view(), name="service-update"),
-    path("order/update/<int:order_id>/", order_update, name="order-update"),
+    path("order/update/<int:order_id>/", OrderUpdateView.as_view(), name="order-update"),
 
     # AJAX вью для отдачи массива объектов услуг по ID мастера
     path("ajax/services/<int:master_id>/", AjaxMasterServicesView.as_view(), name="get_services_by_master"),

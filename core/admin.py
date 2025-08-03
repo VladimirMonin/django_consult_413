@@ -64,7 +64,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ("status", "master", TotalOrderPrice)
 
     # Сколько записей на странице
-    list_per_page = 20
+    list_per_page = 5
 
     # Кликабельные поля
     list_display_links = ("phone", "name")

@@ -1,4 +1,5 @@
 # core/views.py
+from django.forms import BaseModelForm
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.contrib import messages
@@ -36,19 +37,12 @@ class AjaxMasterServicesView(View):
         return JsonResponse({"services": services_data})
 
 
-def review_create(request):
-    if request.method == "GET":
-        form = ReviewModelForm()
-        return render(request, "review_class_form.html", {"form": form})
+class ReviewCreateView(CreateView):
+    model = Review
+    form_class = ReviewModelForm
+    template_name = "review_class_form.html"
+    success_url = reverse_lazy("thanks", kwargs={"source": "review-create"})
 
-    elif request.method == "POST":
-        form = ReviewModelForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            # Перенаправим на thanks и передадим source = review-create
-            return redirect("thanks", source="review-create")
-        else:
-            return render(request, "review_class_form.html", {"form": form})
 
 class LandingTemplateView(TemplateView):
     """Классовая view для главной страницы"""
@@ -172,14 +166,11 @@ class OrderListView(ListView):
         return orders
 
 
-
-
-
 class OrderDetailView(DetailView):
     model = Order
     template_name = "order_detail.html"
     context_object_name = "order"
-    pk_url_kwarg = "order_id" # Указываем, что id брать из URL kwarg 'order_id'
+    pk_url_kwarg = "order_id"  # Указываем, что id брать из URL kwarg 'order_id'
 
     def get_queryset(self):
         """
@@ -187,8 +178,10 @@ class OrderDetailView(DetailView):
         Этот метод подготавливает оптимизированный QuerySet.
         """
         queryset = super().get_queryset()
-        return queryset.select_related("master").prefetch_related("services").annotate(
-            total_price=Sum("services__price")
+        return (
+            queryset.select_related("master")
+            .prefetch_related("services")
+            .annotate(total_price=Sum("services__price"))
         )
 
     def get_object(self, queryset=None):
@@ -212,42 +205,39 @@ class OrderDetailView(DetailView):
 
         return order
 
-def order_create(request):
-    if request.method == "POST":
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Заявка успешно отправлена!")
-            return redirect("thanks", source="order-create")
-    else:
-        form = OrderForm()
 
-    return render(request, "order_class_form.html", {"form": form})
+class OrderCreateView(CreateView):
+    form_class = OrderForm
+    template_name = "order_class_form.html"
+    success_url = reverse_lazy("thanks", kwargs={"source": "order-create"})
+    success_message = "Заказ успешно создан!"
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Создание заказа"
+        return context
 
 
-def order_update(request, order_id):
-    """
-    Отвечает за маршрут 'orders/<int:order_id>/update/'
-    """
-    try:
-        order = Order.objects.get(id=order_id)
-    except Order.DoesNotExist:
-        return HttpResponse("Заказ не найден", status=404)
+class OrderUpdateView(UpdateView):
+    model = Order
+    form_class = OrderForm
+    template_name = "order_class_form.html"
+    success_url = reverse_lazy("orders")
+    success_message = "Заказ успешно обновлен!"
+    pk_url_kwarg = "order_id"
 
-    if request.method == "POST":
-        form = OrderForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f"Заказ №{order.id} успешно обновлен.")
-            return redirect("order_detail", order_id=order.id)
-    else:
-        form = OrderForm(instance=order)
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        messages.success(self.request, self.success_message)
+        return super().form_valid(form)
 
-    context = {
-        "form": form,
-        "operation_type": f"Обновление заказа №{order.id}",
-    }
-    return render(request, "order_class_form.html", context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Редактирование заказа"
+        return context
 
 
 class ServicesListView(ListView):
@@ -267,13 +257,15 @@ class ServiceCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["operation_type"] = "Создание услуги"
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, "Услуга успешно создана!")
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
-        messages.error(self.request, "Ошибка валидации формы! Проверьте введенные данные.")
+        messages.error(
+            self.request, "Ошибка валидации формы! Проверьте введенные данные."
+        )
         return super().form_invalid(form)
 
 
@@ -289,11 +281,13 @@ class ServiceUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["operation_type"] = "Редактирование услуги"
         return context
-    
+
     def form_valid(self, form):
         messages.success(self.request, "Услуга успешно обновлена!")
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
-        messages.error(self.request, "Ошибка валидации формы! Проверьте введенные данные.")
+        messages.error(
+            self.request, "Ошибка валидации формы! Проверьте введенные данные."
+        )
         return super().form_invalid(form)
