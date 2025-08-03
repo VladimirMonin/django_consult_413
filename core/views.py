@@ -258,41 +258,6 @@ class ServicesListView(ListView):
     # context_object_name = "services"
 
 
-# def service_create(request):
-#     if request.method == "GET":
-#         # Создать пустую форму
-#         form = ServiceForm()
-#         context = {
-#             "operation_type": "Создание услуги",
-#             "form": form,
-#         }
-#         return render(request, "service_class_form.html", context=context)
-
-#     elif request.method == "POST":
-#         # Создаем форму и помещаем в нее данные из POST-запроса
-#         form = ServiceForm(request.POST)
-
-#         # Проверяем, что форма валидна
-#         if form.is_valid():
-#             # Создаем объект модели на основе данных из формы
-#             form.save()
-#             # Добавляем сообщение об успешном создании услуги
-#             messages.success(request, "Услуга успешно создана!")
-#             # Перенаправить на страницу со списком услуг
-#             return redirect("services-list")
-#         else:
-#             messages.error(request, "Ошибка валидации формы! Проверьте введенные данные.")
-#             context = {
-#                 "operation_type": "Создание услуги",
-#                 "form": form,
-#             }
-#             return render(request, "service_class_form.html", context=context)
-
-#     else:
-#         # Вернуть ошибку 405 (Метод не разрешен)
-#         return HttpResponseNotAllowed(["GET", "POST"])
-
-
 class ServiceCreateView(CreateView):
     form_class = ServiceForm
     template_name = "service_class_form.html"
@@ -302,43 +267,33 @@ class ServiceCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["operation_type"] = "Создание услуги"
         return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Услуга успешно создана!")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Ошибка валидации формы! Проверьте введенные данные.")
+        return super().form_invalid(form)
 
 
-def service_update(request, service_id):
-    """
-    Отвечает за маршрут 'services/<int:service_id>/update/'
-    """
-    try:
-        service = Service.objects.get(id=service_id)
-    except Service.DoesNotExist:
-        # Если нет такой услуги, вернем 404
-        return HttpResponse("Услуга не найдена", status=404)
+class ServiceUpdateView(UpdateView):
+    model = Service
+    form_class = ServiceForm
+    template_name = "service_class_form.html"
+    success_url = reverse_lazy("servфываices-list")
+    # Стандартное имя - pk, если в url другое - мы можем дать название тут
+    pk_url_kwarg = "service_id"
 
-    if request.method == "GET":
-        # Для GET-запроса создаем форму, связанную с существующим объектом
-        form = ServiceForm(instance=service)
-        context = {
-            "operation_type": "Обновление услуги",
-            "form": form,
-        }
-        return render(request, "service_class_form.html", context=context)
-
-    elif request.method == "POST":
-        # Для POST-запроса создаем форму с данными из запроса и связываем с объектом
-        form = ServiceForm(request.POST, request.FILES, instance=service)
-        if form.is_valid():
-            # Если форма валидна, сохраняем изменения
-            form.save()
-            messages.success(request, f"Услуга '{service.name}' успешно обновлена.")
-            return redirect("services-list")
-        else:
-            # Если форма невалидна, снова отображаем страницу с формой и ошибками
-            context = {
-                "operation_type": "Обновление услуги",
-                "form": form,
-            }
-            return render(request, "service_class_form.html", context=context)
-
-    else:
-        # Для всех других методов возвращаем ошибку
-        return HttpResponseNotAllowed(["GET", "POST"])
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Редактирование услуги"
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Услуга успешно обновлена!")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Ошибка валидации формы! Проверьте введенные данные.")
+        return super().form_invalid(form)
