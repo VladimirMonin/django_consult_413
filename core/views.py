@@ -246,9 +246,12 @@ def order_update(request, order_id):
     return render(request, "order_class_form.html", context)
 
 
-def services_list(request):
-    services = Service.objects.all()
-    return render(request, "services_list.html", {"services": services})
+class ServicesListView(ListView):
+    model = Service
+    # queryset = Service.objects.all().order_by("-price")
+    template_name = "services_list.html"
+    # object_list - стандартное имя для списка объектов
+    # context_object_name = "services"
 
 
 def service_create(request):
