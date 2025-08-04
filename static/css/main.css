@@ -376,3 +376,40 @@ section {
     font-size: 1rem; /* Корректируем размер шрифта для мобильных устройств */
   }
 }
+
+
+/* Custom Pagination Styles - Green Theme for BS5 */
+
+/* Default state for pagination links */
+.pagination > .page-item > .page-link {
+  color: var(--brand-green);
+}
+
+/* Hover state for pagination links */
+.pagination > .page-item > .page-link:hover {
+  color: var(--brand-green);
+  background-color: #e9ecef; /* Standard BS hover color */
+}
+
+/* Active state for pagination links */
+.pagination > .page-item.active > .page-link,
+.pagination > .page-item.active > .page-link:hover,
+.pagination > .page-item.active > .page-link:focus {
+  background-color: var(--brand-green);
+  border-color: var(--brand-green);
+  color: #fff;
+  z-index: 3;
+}
+
+/* Focus state for pagination links */
+.pagination > .page-item > .page-link:focus {
+  box-shadow: 0 0 0 0.25rem rgba(15, 81, 50, 0.25); /* RGB for --brand-green */
+}
+
+/* Disabled state for pagination links */
+.pagination > .page-item.disabled > .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: #fff;
+  border-color: #dee2e6;
+}

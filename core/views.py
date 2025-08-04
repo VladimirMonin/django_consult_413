@@ -166,6 +166,21 @@ class OrderListView(ListView):
         )
 
         return orders
+    
+    def get_context_data(self, **kwargs):
+        """
+        Добавляем в контекст параметры GET-запроса для корректной работы пагинации с фильтрами.
+        """
+        context = super().get_context_data(**kwargs)
+        # Копируем текущие GET-параметры
+        get_params = self.request.GET.copy()
+        # Если в параметрах есть 'page', мы его удаляем,
+        # так как номер страницы будет добавлен в шаблоне
+        if 'page' in get_params:
+            del get_params['page']
+        # Кодируем параметры в строку и добавляем в контекст
+        context['get_params'] = get_params.urlencode()
+        return context
 
 
 class OrderDetailView(DetailView):
