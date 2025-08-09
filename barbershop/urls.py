@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
 from core.views import (
     LandingTemplateView,
@@ -34,6 +34,9 @@ urlpatterns = [
 
     # AJAX вью для отдачи массива объектов услуг по ID мастера
     path("ajax/services/<int:master_id>/", AjaxMasterServicesView.as_view(), name="get_services_by_master"),
+
+    # Подключаем маршруты приложения users
+    path("users/", include("users.urls")),
 ]
 
 # Добавляем Статику и Медиа ЕСЛИ в режиме разработки

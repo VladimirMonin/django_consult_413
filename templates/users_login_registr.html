@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% comment %} users_login_registr.html {% endcomment %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">{{ operation_type }}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% comment %} Цикл по ошибкам не связанным с полем {% endcomment %}
+                        {% for error in form.non_field_errors %}
+                           <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                        {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger mt-1">{{ error }}</div>
+                        {% endfor %}
+                            <div class="mb-3">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% comment %} {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %} {% endcomment %}
+                            </div>
+                        {% endfor %}
+                        
+                        <button type="submit" class="btn btn-success w-100">{{ operation_type  }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
