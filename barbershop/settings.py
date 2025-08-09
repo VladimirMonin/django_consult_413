@@ -195,3 +195,8 @@ MISTRAL_MODERATIONS_GRADES = {
 
 TELEGRAM_BOT_API_KEY = os.getenv("TELEGRAM_BOT_API_KEY")
 TELEGRAM_USER_ID = os.getenv("TELEGRAM_USER_ID")
+
+
+# Маршрут для входа в систему и маршрут для перенаправления после входа
+LOGIN_URL = "/users/login/"
+LOGIN_REDIRECT_URL = "/"
