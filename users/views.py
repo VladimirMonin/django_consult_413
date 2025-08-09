@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from .forms import CustomRegisterForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib import messages
@@ -7,7 +7,7 @@ from django.contrib.auth import login
 
 
 class CustomRegisterView(CreateView):
-    form_class = UserCreationForm
+    form_class = CustomRegisterForm
     template_name = "users_login_registr.html"
     success_url = "/users/login/"
     success_message = "Вы успешно зарегистрировались! Добро пожаловать!"
@@ -22,6 +22,7 @@ class CustomRegisterView(CreateView):
         messages.error(
             self.request, "Ошибка регистрации. Пожалуйста, проверьте введенные данные."
         )
+        return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

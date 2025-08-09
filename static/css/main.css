@@ -59,8 +59,8 @@ h2 {
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(112, 66, 20, 0.15);
+  /* transform: translateY(-5px); */
+  box-shadow: 0 8px 24px rgba(99, 57, 16, 0.523);
 }
 
 .card-img-top {
