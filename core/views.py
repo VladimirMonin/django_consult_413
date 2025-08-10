@@ -6,6 +6,8 @@ from django.contrib import messages
 from .models import Order, Master, Service, Review
 from .forms import ServiceForm, OrderForm, ReviewModelForm
 from django.db.models import Q, Count, Sum, F
+# Импорт миксинов для проверки прав
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 
 # Импорт классовых вью, View, TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
@@ -19,6 +21,16 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy, reverse
 
+
+class UserIsStuffPassedMixin(UserPassesTestMixin):
+    """
+    Миксин для проверки, является ли пользователь персоналом сайта
+    """
+    def test_func(self):
+        """
+        Метод от ответа которого будет зависеть доступ к вью
+        """
+        return self.request.user.is_staff
 
 class AjaxMasterServicesView(View):
     """
@@ -239,7 +251,8 @@ class OrderCreateView(CreateView):
         return context
 
 
-class OrderUpdateView(UpdateView):
+class OrderUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "core.change_order"
     model = Order
     form_class = OrderForm
     template_name = "order_class_form.html"
@@ -257,7 +270,7 @@ class OrderUpdateView(UpdateView):
         return context
 
 
-class ServicesListView(ListView):
+class ServicesListView(LoginRequiredMixin, ListView):
     model = Service
     # queryset = Service.objects.all().order_by("-price")
     template_name = "services_list.html"
@@ -265,7 +278,7 @@ class ServicesListView(ListView):
     # context_object_name = "services"
 
 
-class ServiceCreateView(CreateView):
+class ServiceCreateView(UserIsStuffPassedMixin, CreateView):
     form_class = ServiceForm
     template_name = "service_class_form.html"
     success_url = reverse_lazy("services-list")
@@ -286,7 +299,7 @@ class ServiceCreateView(CreateView):
         return super().form_invalid(form)
 
 
-class ServiceUpdateView(UpdateView):
+class ServiceUpdateView(UserIsStuffPassedMixin, UpdateView):
     model = Service
     form_class = ServiceForm
     template_name = "service_class_form.html"

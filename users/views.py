@@ -43,7 +43,7 @@ class CustomRegisterView(CreateView):
 class CustomLoginView(LoginView):
     form_class = CustomLoginForm
     template_name = "users_login_registr.html"
-    success_url = reverse_lazy("landing")
+    success_url = reverse_lazy("services-list")
     success_message = "Вы успешно вошли в систему!"
 
     def form_valid(self, form):
