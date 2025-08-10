@@ -6,6 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
+            {% comment %} Общее меню сайта {% endcomment %}
             <ul class="navbar-nav me-auto">
                 {% for item in menu_items %}
                     <li class="nav-item">
@@ -15,6 +16,8 @@
                     </li>
                 {% endfor %}
             </ul>
+            {% comment %} Меню для персонала user.is_staff {% endcomment %}
+            {% if user.is_staff %}
             <ul class="navbar-nav">
                 {% for item in menu_staff_items %}
                      <li class="nav-item">
@@ -23,6 +26,37 @@
                         </a>
                     </li>
                 {% endfor %}
+            {% endif %}
+            </ul>
+            {% comment %} Вход | Регистарция или user.username | Выход {% endcomment %}
+            
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link">{{ user.username }}</span>
+                    </li>
+                     <li class="nav-item">
+                        <span class="nav-link">|</span>
+                    </li>
+                    <li class="nav-item">
+                        {% comment %} Это не будет работать. Class LogoutView принемает только POST!!! {% endcomment %}
+                        {% comment %} <a class="nav-link" href="{% url 'logout' %}">Выход</a> {% endcomment %}
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link">Выход</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Вход</a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link">|</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

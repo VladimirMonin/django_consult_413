@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from .forms import CustomRegisterForm, CustomLoginForm
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LogoutView, LoginView
@@ -10,14 +10,23 @@ from django.urls import reverse_lazy
 class CustomRegisterView(CreateView):
     form_class = CustomRegisterForm
     template_name = "users_login_registr.html"
-    success_url = "/users/login/"
+    success_url = reverse_lazy("landing")
     success_message = "Вы успешно зарегистрировались! Добро пожаловать!"
 
     def form_valid(self, form):
+        # 1. Сохраняем пользователя. Теперь у объекта user есть ID.
+        user = form.save()
+
+        # 2. Устанавливаем self.object, как того требует CreateView.
+        self.object = user
+
+        # 3. Теперь безопасно вызываем login().
+        login(self.request, user)
+
         messages.success(self.request, self.success_message)
-        # Сразу авторизуем пользователя после регистрации
-        login(self.request, form.instance)
-        return super().form_valid(form)
+
+        # 4. Выполняем перенаправление.
+        return redirect(self.get_success_url())
 
     def form_invalid(self, form):
         messages.error(
