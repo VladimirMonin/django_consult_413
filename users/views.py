@@ -1,11 +1,25 @@
 from django.shortcuts import redirect
-from .forms import CustomRegisterForm, CustomLoginForm
+from .forms import CustomRegisterForm, CustomLoginForm, CustomPasswordChangeForm
 from django.views.generic.edit import CreateView
-from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView
 from django.contrib import messages
 from django.contrib.auth import login
 from django.urls import reverse_lazy
 
+
+class CustomPasswordChangeView(PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    template_name = "users_login_registr.html"
+    success_url = reverse_lazy("landing")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Пароль успешно изменен!")
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Смена пароля"
+        return context
 
 class CustomRegisterView(CreateView):
     form_class = CustomRegisterForm
