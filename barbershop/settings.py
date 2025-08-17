@@ -1,4 +1,5 @@
 from pathlib import Path
+from django.conf.global_settings import CSRF_TRUSTED_ORIGINS
 from dotenv import load_dotenv
 import os
 from django.urls import reverse_lazy
@@ -19,7 +20,14 @@ MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG_MODE", "True") == "True"
 
-ALLOWED_HOSTS = []
+# На каких ХОСТАХ может работать сайт (без www и http)
+ALLOWED_HOSTS = ["92.255.107.187", "vladimirmonin-django-consult-413-7b65.twc1.net"]
+
+# От куда мы принемаем CSRF запросы (полные адреса)
+CSRF_TRUSTED_ORIGINS = [
+    "http://92.255.107.187",
+    "http://vladimirmonin-django-consult-413-7b65.twc1.net",
+]
 
 
 # Application definition
