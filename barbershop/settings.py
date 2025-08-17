@@ -27,6 +27,7 @@ ALLOWED_HOSTS = ["92.255.107.187", "vladimirmonin-django-consult-413-7b65.twc1.n
 CSRF_TRUSTED_ORIGINS = [
     "http://92.255.107.187",
     "http://vladimirmonin-django-consult-413-7b65.twc1.net",
+    "https://vladimirmonin-django-consult-413-7b65.twc1.net",
 ]
 
 
