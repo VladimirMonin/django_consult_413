@@ -190,8 +190,20 @@ TELEGRAM_USER_ID = os.getenv("TELEGRAM_USER_ID")
 LOGIN_URL = reverse_lazy("login")
 LOGIN_REDIRECT_URL = reverse_lazy("landing")
 
-# Новая модель пользователя users.models.CustomUser 
+# Новая модель пользователя users.models.CustomUser
 AUTH_USER_MODEL = "users.CustomUser"
 
 # Емейл backend для отправки писем восстановления паролей в консоль Django
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Письма будут уходить smtp сервер
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.getenv("EMAIL")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL")
+SERVER_EMAIL = os.getenv("EMAIL")
+EMAIL_ADMIN = os.getenv("EMAIL")

@@ -32,7 +32,9 @@
                         {% comment %} Ссылка на восстановление пароля 
                         url - password_reset
                         {% endcomment %}
+                        {% if is_auth_form %}
                         <a href="{% url 'password_reset' %}" class="btn btn-link w-100">Забыли пароль?</a>
+                        {% endif %}
                     </form>
                 </div>
             </div>

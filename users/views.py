@@ -145,6 +145,7 @@ class CustomLoginView(LoginView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["operation_type"] = "Вход"
+        context["is_auth_form"] = True
         return context
 
 
