@@ -1,10 +1,57 @@
 from django.shortcuts import redirect
-from .forms import CustomRegisterForm, CustomLoginForm, CustomPasswordChangeForm
+from .forms import (
+    CustomRegisterForm,
+    CustomLoginForm,
+    CustomPasswordChangeForm,
+    CustomSetPasswordForm,
+    CustomPasswordResetForm,
+)
 from django.views.generic.edit import CreateView
-from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView
+from django.contrib.auth.views import (
+    LogoutView,
+    LoginView,
+    PasswordChangeView,
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView,
+)
 from django.contrib import messages
 from django.contrib.auth import login
 from django.urls import reverse_lazy
+
+
+class CustomPasswordResetView(PasswordResetView):
+    """
+    1. Начало сброса пароля. Человек вводит емейл для сброса
+    """
+
+    pass
+
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    """
+    2. Загляните в Emeil - вам ушло письмо с инструкциями
+    """
+
+    pass
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    """
+    3. Вью где отображается форма восстановление пароля (можно попасть только через платформу 9 3\4
+    ) - комбо <uidb64> + <token>
+    """
+
+    pass
+
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    """
+    Ура! Вы сбросили пароль!
+    """
+
+    pass
 
 
 class CustomPasswordChangeView(PasswordChangeView):
@@ -15,11 +62,12 @@ class CustomPasswordChangeView(PasswordChangeView):
     def form_valid(self, form):
         messages.success(self.request, "Пароль успешно изменен!")
         return super().form_valid(form)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["operation_type"] = "Смена пароля"
         return context
+
 
 class CustomRegisterView(CreateView):
     form_class = CustomRegisterForm
