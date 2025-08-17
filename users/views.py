@@ -26,7 +26,15 @@ class CustomPasswordResetView(PasswordResetView):
     1. Начало сброса пароля. Человек вводит емейл для сброса
     """
 
-    pass
+    template_name = "users_login_registr.html"
+    form_class = CustomPasswordResetForm
+    success_url = reverse_lazy("password_reset_done")
+    email_template_name = "password_reset_email.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["operation_type"] = "Восстановление пароля"
+        return context
 
 
 class CustomPasswordResetDoneView(PasswordResetDoneView):
@@ -34,7 +42,14 @@ class CustomPasswordResetDoneView(PasswordResetDoneView):
     2. Загляните в Emeil - вам ушло письмо с инструкциями
     """
 
-    pass
+    message = "Инструкции по восстановлению пароля отправлены на Email"
+    operation_type = "Внимание!"
+
+    template_name = "users_message.html"
+    extra_context = {
+        "operation_type": operation_type,
+        "message": message,
+    }
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
@@ -43,15 +58,23 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     ) - комбо <uidb64> + <token>
     """
 
-    pass
+    operation_type = "Сменить пароль"
+    extra_context = {"operation_type": operation_type}
+    form_class = CustomSetPasswordForm
+    template_name = "users_login_registr.html"
+    success_url = reverse_lazy("password_reset_complete")
 
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     """
     Ура! Вы сбросили пароль!
     """
-
-    pass
+    message = "Вы успешно сменили пароль!"
+    operation_type = "Внимание!"
+    extra_context = {
+        "operation_type": operation_type,
+        "message": message,
+    }
 
 
 class CustomPasswordChangeView(PasswordChangeView):

@@ -29,6 +29,10 @@
                         {% endfor %}
                         
                         <button type="submit" class="btn btn-success w-100">{{ operation_type  }}</button>
+                        {% comment %} Ссылка на восстановление пароля 
+                        url - password_reset
+                        {% endcomment %}
+                        <a href="{% url 'password_reset' %}" class="btn btn-link w-100">Забыли пароль?</a>
                     </form>
                 </div>
             </div>

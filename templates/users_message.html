@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% comment %} 
+users_message.html
+Шаблон для оповещений вроде "Вы успешно изменили пароль" или "Инструкции по восстановлению отправлены на емейл"
+{% endcomment %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">{{ operation_type }}</h3>
+                </div>
+                <div class="card-body">
+                   {{ message }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
