@@ -193,3 +193,5 @@ LOGIN_REDIRECT_URL = reverse_lazy("landing")
 # Новая модель пользователя users.models.CustomUser 
 AUTH_USER_MODEL = "users.CustomUser"
 
+# Емейл backend для отправки писем восстановления паролей в консоль Django
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

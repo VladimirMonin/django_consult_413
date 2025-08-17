@@ -75,6 +75,7 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
         "operation_type": operation_type,
         "message": message,
     }
+    template_name = "users_message.html"
 
 
 class CustomPasswordChangeView(PasswordChangeView):
