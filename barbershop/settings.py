@@ -21,13 +21,14 @@ MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 DEBUG = os.getenv("DEBUG_MODE", "True") == "True"
 
 # На каких ХОСТАХ может работать сайт (без www и http)
-ALLOWED_HOSTS = ["92.255.107.187", "vladimirmonin-django-consult-413-7b65.twc1.net"]
+ALLOWED_HOSTS = ["83.217.223.21", "exception-blog.ru", "localhost", "127.0.0.1"]
 
 # От куда мы принемаем CSRF запросы (полные адреса)
 CSRF_TRUSTED_ORIGINS = [
-    "http://92.255.107.187",
-    "http://vladimirmonin-django-consult-413-7b65.twc1.net",
-    "https://vladimirmonin-django-consult-413-7b65.twc1.net",
+    "http://83.217.223.21",
+    "https://83.217.223.21",
+    "http://exception-blog.ru",
+    "https://exception-blog.ru",
 ]
 
 
