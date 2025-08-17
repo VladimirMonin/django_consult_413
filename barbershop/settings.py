@@ -17,7 +17,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG_MODE", "True") == "True"
 
 ALLOWED_HOSTS = []
 
@@ -198,11 +198,10 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 # Письма будут уходить smtp сервер
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = os.getenv("EMAIL")
 EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_PORT = 465
-EMAIL_HOST_USER = os.getenv("EMAIL")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = os.getenv("EMAIL")
 SERVER_EMAIL = os.getenv("EMAIL")

@@ -1,0 +1,535 @@
+[
+  {
+    "model": "core.order",
+    "pk": 1,
+    "fields": {
+      "name": "Гендальф",
+      "phone": "+77772233948",
+      "comment": "Покраска бороды",
+      "status": "completed",
+      "date_created": "2025-07-06T12:36:06.980Z",
+      "date_updated": "2025-07-06T12:47:49.493Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 2,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 2,
+    "fields": {
+      "name": "Леголас",
+      "phone": "+1123123123",
+      "comment": "Покраска в блонд",
+      "status": "completed",
+      "date_created": "2025-07-06T12:36:06.980Z",
+      "date_updated": "2025-07-06T12:47:43.459Z",
+      "master": 2,
+      "appointment_date": null,
+      "view_count": 0,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 3,
+    "fields": {
+      "name": "Фродо",
+      "phone": "+3333",
+      "comment": "Завивка",
+      "status": "completed",
+      "date_created": "2025-07-06T12:36:06.980Z",
+      "date_updated": "2025-07-06T12:47:22.289Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 0,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 4,
+    "fields": {
+      "name": "Пиппин",
+      "phone": "+4444",
+      "comment": "Стрижка",
+      "status": "completed",
+      "date_created": "2025-07-06T12:36:06.980Z",
+      "date_updated": "2025-07-06T12:47:39.164Z",
+      "master": 2,
+      "appointment_date": null,
+      "view_count": 0,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 5,
+    "fields": {
+      "name": "Голум",
+      "phone": "22222222222",
+      "comment": "Полировка кольца",
+      "status": "new",
+      "date_created": "2025-07-06T12:48:17.378Z",
+      "date_updated": "2025-07-13T10:57:36.902Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 0,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 6,
+    "fields": {
+      "name": "Главный Орк",
+      "phone": "2222",
+      "comment": "Пойду на свидание. Не оплошайте!",
+      "status": "confirmed",
+      "date_created": "2025-07-06T12:48:43.772Z",
+      "date_updated": "2025-07-06T12:48:43.772Z",
+      "master": 3,
+      "appointment_date": null,
+      "view_count": 0,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 7,
+    "fields": {
+      "name": "Леголас",
+      "phone": "+1123123123",
+      "comment": "Заказ от уважемого Леголаса",
+      "status": "new",
+      "date_created": "2025-07-13T11:29:44.487Z",
+      "date_updated": "2025-07-13T11:29:44.487Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 0,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 8,
+    "fields": {
+      "name": "Владимир",
+      "phone": "+77772233948",
+      "comment": null,
+      "status": "new",
+      "date_created": "2025-07-20T12:59:10.056Z",
+      "date_updated": "2025-07-20T12:59:10.056Z",
+      "master": null,
+      "appointment_date": null,
+      "view_count": 0,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 9,
+    "fields": {
+      "name": "Леголас",
+      "phone": "+77772233948",
+      "comment": "Заказ от уважемого Леголаса",
+      "status": "new",
+      "date_created": "2025-07-20T13:39:11.120Z",
+      "date_updated": "2025-07-20T13:39:11.120Z",
+      "master": null,
+      "appointment_date": "2025-07-20",
+      "view_count": 0,
+      "services": []
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 10,
+    "fields": {
+      "name": "Рон Уизли",
+      "phone": "+77772233948",
+      "comment": "Покраска бороды в гоблинско-рыжий",
+      "status": "new",
+      "date_created": "2025-07-27T12:05:27.767Z",
+      "date_updated": "2025-08-10T12:45:37.953Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 1,
+      "services": [11, 12]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 11,
+    "fields": {
+      "name": "Леголас",
+      "phone": "+77772233948",
+      "comment": "Заказ от уважемого Леголаса",
+      "status": "new",
+      "date_created": "2025-07-27T12:20:03.294Z",
+      "date_updated": "2025-07-27T12:20:03.294Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 0,
+      "services": [11, 13]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 12,
+    "fields": {
+      "name": "Рон Уизли",
+      "phone": "+77772233948",
+      "comment": "Пойду на свидание. Не оплошайте!",
+      "status": "new",
+      "date_created": "2025-07-27T12:23:03.821Z",
+      "date_updated": "2025-07-27T12:23:03.821Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 1,
+      "services": [13]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 13,
+    "fields": {
+      "name": "Рон Уизли",
+      "phone": "+77772233948",
+      "comment": "Пойду на свидание. Не оплошайте!",
+      "status": "new",
+      "date_created": "2025-07-27T12:23:48.246Z",
+      "date_updated": "2025-07-27T12:30:10.930Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 1,
+      "services": [13, 14]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 14,
+    "fields": {
+      "name": "Леголас",
+      "phone": "+77772233948",
+      "comment": "Полировка кольца",
+      "status": "new",
+      "date_created": "2025-07-27T12:26:22.912Z",
+      "date_updated": "2025-07-27T12:34:09.305Z",
+      "master": 1,
+      "appointment_date": "2025-07-27",
+      "view_count": 0,
+      "services": [13, 14]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 15,
+    "fields": {
+      "name": "Гном гномыч",
+      "phone": "+77772233948",
+      "comment": "Освободите меня! Меня держат в рабстве и заставляют снимать тиктоки!!!!!!!!",
+      "status": "new",
+      "date_created": "2025-07-27T12:59:39.184Z",
+      "date_updated": "2025-07-27T13:00:43.637Z",
+      "master": 2,
+      "appointment_date": "2025-07-27",
+      "view_count": 5,
+      "services": [12, 13]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 16,
+    "fields": {
+      "name": "Гендальф",
+      "phone": "+77772233948",
+      "comment": "Полировка кольца!!!!!!",
+      "status": "new",
+      "date_created": "2025-08-02T11:04:27.669Z",
+      "date_updated": "2025-08-03T11:24:05.698Z",
+      "master": 1,
+      "appointment_date": null,
+      "view_count": 41,
+      "services": [11]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 17,
+    "fields": {
+      "name": "Грозный Глаз Грюм",
+      "phone": "+77772233948",
+      "comment": "Предстоит балл в Хогвартсе - не оплашайте)",
+      "status": "new",
+      "date_created": "2025-08-03T12:00:27.788Z",
+      "date_updated": "2025-08-03T12:00:27.788Z",
+      "master": 1,
+      "appointment_date": "2025-08-03",
+      "view_count": 0,
+      "services": [14]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 18,
+    "fields": {
+      "name": "Гендальф",
+      "phone": "+77772233948",
+      "comment": null,
+      "status": "new",
+      "date_created": "2025-08-03T12:00:54.901Z",
+      "date_updated": "2025-08-03T12:00:54.901Z",
+      "master": 3,
+      "appointment_date": "2025-08-03",
+      "view_count": 0,
+      "services": [14]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 19,
+    "fields": {
+      "name": "Грозный Глаз Грюм",
+      "phone": "+77772233948",
+      "comment": null,
+      "status": "confirmed",
+      "date_created": "2025-08-03T12:02:33.308Z",
+      "date_updated": "2025-08-10T12:44:58.963Z",
+      "master": 2,
+      "appointment_date": "2025-08-03",
+      "view_count": 0,
+      "services": [13]
+    }
+  },
+  {
+    "model": "core.order",
+    "pk": 20,
+    "fields": {
+      "name": "Рон Уизли",
+      "phone": "+77772233948",
+      "comment": null,
+      "status": "new",
+      "date_created": "2025-08-03T12:04:47.760Z",
+      "date_updated": "2025-08-03T12:04:47.760Z",
+      "master": 2,
+      "appointment_date": "2025-08-03",
+      "view_count": 0,
+      "services": [12]
+    }
+  },
+  {
+    "model": "core.master",
+    "pk": 1,
+    "fields": {
+      "name": "Гендальф",
+      "photo": "",
+      "phone": "+77772233948",
+      "address": null,
+      "experience": 0,
+      "is_active": true,
+      "services": [11, 12, 13, 14]
+    }
+  },
+  {
+    "model": "core.master",
+    "pk": 2,
+    "fields": {
+      "name": "Бородач Радеонов",
+      "photo": "",
+      "phone": "+1123123123",
+      "address": null,
+      "experience": 0,
+      "is_active": true,
+      "services": [12, 13]
+    }
+  },
+  {
+    "model": "core.master",
+    "pk": 3,
+    "fields": {
+      "name": "Алевтина Арбузова",
+      "photo": "",
+      "phone": "777777",
+      "address": "Арбузная 22",
+      "experience": 500,
+      "is_active": true,
+      "services": [14]
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 11,
+    "fields": {
+      "name": "Гном борода",
+      "description": "",
+      "price": "500.00",
+      "duration": 30,
+      "is_popular": true,
+      "image": ""
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 12,
+    "fields": {
+      "name": "Тролль борода",
+      "description": "",
+      "price": "1000.00",
+      "duration": 30,
+      "is_popular": false,
+      "image": ""
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 13,
+    "fields": {
+      "name": "Гоблинские усы",
+      "description": "",
+      "price": "3000.00",
+      "duration": 30,
+      "is_popular": true,
+      "image": ""
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 14,
+    "fields": {
+      "name": "Кудряшки хоббита",
+      "description": "",
+      "price": "1000.00",
+      "duration": 30,
+      "is_popular": false,
+      "image": ""
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 15,
+    "fields": {
+      "name": "Крученая бородка \"Подлый Эльф\"",
+      "description": "Крученая бородка \"Подлый Эльф\"\r\n\r\nВы встречали этого типа в тавернах. Тонкая крученая бородка и хитрый рыщущий взгляд.\r\nВы отвели в сторону взгляд!!!!!",
+      "price": "4444.00",
+      "duration": 30,
+      "is_popular": true,
+      "image": ""
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 16,
+    "fields": {
+      "name": "Завивка бровей \"Пьяный Гном\"",
+      "description": "Ваши брови будут неотразимы... Словно вы вновь увидели старого друга Гнома... Навевает ностальгию и хочется пойти в поход. Или в таверну....",
+      "price": "2000.00",
+      "duration": 10,
+      "is_popular": true,
+      "image": ""
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 17,
+    "fields": {
+      "name": "Завивка бровей \"Пьяный Гном\"",
+      "description": "Ваши брови будут неотразимы... Словно вы вновь увидели старого друга Гнома... Навевает ностальгию и хочется пойти в поход. Или в таверну....",
+      "price": "-1.00",
+      "duration": 10,
+      "is_popular": true,
+      "image": ""
+    }
+  },
+  {
+    "model": "core.service",
+    "pk": 18,
+    "fields": {
+      "name": "Покраска волос \"Хоббит маргинал\"",
+      "description": "Вы встречали хоббита-маргинала? Вы можете стать таким же угрожающим! Всего за...",
+      "price": "6000.00",
+      "duration": 30,
+      "is_popular": true,
+      "image": ""
+    }
+  },
+  {
+    "model": "core.review",
+    "pk": 1,
+    "fields": {
+      "name": "Леголас",
+      "text": "Отлично подстригли",
+      "rating": 5,
+      "master": 1,
+      "photo": "",
+      "status": "published",
+      "created_at": "2025-07-26T11:19:11.584Z"
+    }
+  },
+  {
+    "model": "core.review",
+    "pk": 2,
+    "fields": {
+      "name": "АНАНИМ",
+      "text": "Гендальф пАдстрик меня проста ужасна!\r\nНенавижу вас и ваше завидение!\r\n\r\nГАРИТЕ В АДУ!!!!!!!!!!!!!!!!!!!!!",
+      "rating": 1,
+      "master": 1,
+      "photo": "",
+      "status": "ai_rejected",
+      "created_at": "2025-07-26T12:39:53.576Z"
+    }
+  },
+  {
+    "model": "core.review",
+    "pk": 3,
+    "fields": {
+      "name": "Гендальф",
+      "text": "Алевтина отлично меня подстригла. Правда пришлось дождаться третьего восхода солнца... Но ребята меня подождали....\r\nСпасибо!",
+      "rating": 5,
+      "master": 3,
+      "photo": "",
+      "status": "ai_approved",
+      "created_at": "2025-07-26T12:44:43.285Z"
+    }
+  },
+  {
+    "model": "core.review",
+    "pk": 4,
+    "fields": {
+      "name": "Фродо",
+      "text": "Закрутили мои кудри просто топ!",
+      "rating": 5,
+      "master": 2,
+      "photo": "",
+      "status": "ai_approved",
+      "created_at": "2025-07-26T12:51:16.038Z"
+    }
+  },
+  {
+    "model": "core.review",
+    "pk": 5,
+    "fields": {
+      "name": "Гендальф",
+      "text": "Хотел прическу \"Лабуба\"\r\nАлевтина справилась!!!!!! Супер!",
+      "rating": 5,
+      "master": 3,
+      "photo": "",
+      "status": "ai_approved",
+      "created_at": "2025-08-02T11:16:20.706Z"
+    }
+  },
+  {
+    "model": "core.review",
+    "pk": 6,
+    "fields": {
+      "name": "Грозный Глаз",
+      "text": "Моя барышня осталась довольна моими бровями. Спасибо Алевтина!!!!!!!!!",
+      "rating": 5,
+      "master": 3,
+      "photo": "",
+      "status": "published",
+      "created_at": "2025-08-03T12:13:17.032Z"
+    }
+  }
+]
